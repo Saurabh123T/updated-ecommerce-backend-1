@@ -37,7 +37,7 @@ cloudinary.config({
     api_secret:process.env.CLOUDINARY_API_SECRET
 });
 
-const server=app.listen(process.env.PORT || 4000,async()=>{
+const server=app.listen(process.env.PORT || "8080",async()=>{
     try {
         // const client = new MongoClient("mongodb+srv://mohith:M0hith_kumar@cluster0.7snlp.mongodb.net/ecommerceDB?retryWrites=true&w=majority");
         // await client.connect();
