@@ -26,19 +26,7 @@ app.use(
     )
 );
 
-app.set("trust proxy", 1);
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || 'Super Secret (change it)',
-    resave: true,
-    saveUninitialized: false,
-    cookie: {
-      sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
-      secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
-    }
-  })
-);
 
 
 const errorMiddleware=require("./middleware/error");
@@ -62,7 +50,19 @@ app.use("/api/v1",user);
 app.use("/api/v1",order);
 app.use("/api/v1",payment);
 
+app.set("trust proxy", 1);
 
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET || 'Super Secret (change it)',
+//     resave: true,
+//     saveUninitialized: false,
+//     cookie: {
+//       sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+//       secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
+//     }
+//   })
+// );
 
 // middleware for Errors
 app.use(errorMiddleware);
