@@ -9,7 +9,7 @@ const cors=require("cors")
 const dotenv=require("dotenv");
 
 // testing setup to dotEnv config
-dotenv.config({path:"./config.env"})
+// dotenv.config({path:"./config.env"})
 
 
 app.use(
