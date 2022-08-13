@@ -50,7 +50,7 @@ app.use("/api/v1",user);
 app.use("/api/v1",order);
 app.use("/api/v1",payment);
 
-app.set("trust proxy", 1);
+// app.set("trust proxy", 1);
 
 // app.use(
 //   session({
