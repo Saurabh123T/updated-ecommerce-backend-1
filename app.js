@@ -10,7 +10,10 @@ const dotenv=require("dotenv");
 
 // testing setup to dotEnv config
 // dotenv.config({path:"./config.env"})
-
+if(process.env.NODE_ENV !== "PRODUCTION"){
+    const dotenv=require("dotenv");
+dotenv.config({path:"./config.env"})
+}
 
 app.use(
     cors(
