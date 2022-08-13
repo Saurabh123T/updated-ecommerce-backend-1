@@ -6,10 +6,12 @@ const fileUpload=require("express-fileupload")
 const cors=require("cors")
 
 
-const dotenv=require("dotenv");
 
 // testing setup to dotEnv config
+if(process.env.NODE_ENV !== "PRODUCTION"){
+    const dotenv=require("dotenv");
 dotenv.config({path:"./config.env"})
+}
 
 
 app.use(
