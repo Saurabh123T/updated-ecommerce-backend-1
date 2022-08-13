@@ -14,12 +14,12 @@ const dotenv=require("dotenv");
 
 app.use(
     cors(
-//         {
+        {
  
-//         origin:process.env.FRONTEND_HOST,
-//         credentials:true,
+        origin:process.env.FRONTEND_HOST,
+        credentials:true,
         
-//     }
+    }
     )
 );
 
