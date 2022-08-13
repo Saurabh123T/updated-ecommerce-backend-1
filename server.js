@@ -1,6 +1,6 @@
 const app=require("./app");
 
-const dotenv=require("dotenv");
+// const dotenv=require("dotenv");
 const connectDatabase=require("./config/database")
 const cloudinary=require("cloudinary")
 
@@ -23,6 +23,10 @@ process.on("uncaughtException",(err)=>{
 
 });
 
+if(process.env.NODE_ENV !== "PRODUCTION"){
+    const dotenv=require("dotenv");
+dotenv.config({path:"./config.env"})
+}
 
 connectDatabase();
 
