@@ -68,7 +68,8 @@ exports.createShop=catchAsyncErrors(async(req,res,next)=>{
 
 // get all shops
 exports.getAllShops=catchAsyncErrors(async(req,res,next)=>{
-const shopCount=await shopSchema.countDocuments();
+let shopCount
+// const shopCount=await shopSchema.countDocuments();
 
 let apiFeature
 // console.log(req.query)
@@ -83,10 +84,14 @@ if(req.query.longitude&&req.query.latitude){
        }
     },
     isActive:true
-} ),req.query).search().filter().pagination();
+} ),req.query).search().filter().pagination()
+// console.log(await apiFeature.query)
+
+// apiFeature.pagination();
+// } ),req.query).search().filter().pagination();
 
 }else{
-  
+   
   apiFeature=new ApiFeatures(shopSchema.find({isActive:true}),req.query).search().filter().pagination();
 }
   // let shops=await apiFeature.query;
@@ -369,7 +374,7 @@ isShopOpen=false
 
 }else{
 isShopOpen=true
-}
+} 
 
   res.status(200).json({
     success:true,

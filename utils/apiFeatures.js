@@ -32,8 +32,7 @@ class ApiFeatures{
 
         // this.query=this.query.find({$or:[{...keyword},{categories:{  $regex:this.queryStr.keyword, $options:"i",}}]})
     
-
-        return this;
+                return this;
     }
 
     filter(){
@@ -54,10 +53,14 @@ class ApiFeatures{
         this.query=this.query.find({$and:[{...shopStatus},{...categoryKeyword}]})
         // this.query=this.query.find({...categoryKeyword})
         // this.query=this.query.find({...shopStatus})
+       
+        
+       
         return this;
     }
  
     pagination(){
+       
         const pageSize=Number(this.queryStr.pageSize)||5;
         const currentPage=Number(this.queryStr.page)||1;
 
