@@ -24,15 +24,15 @@ process.on("uncaughtException",(err)=>{
 });
 
 
+
 //config
 // testing setup to dotEnv config
+
 if(process.env.NODE_ENV !== "PRODUCTION"){
     const dotenv=require("dotenv");
 dotenv.config({path:"./config.env"})
 }
 
-
-// conncting to database
 connectDatabase();
 
 cloudinary.config({ 
@@ -41,27 +41,15 @@ cloudinary.config({
     api_secret:process.env.CLOUDINARY_API_SECRET
 });
 
-const server=app.listen(process.env.PORT||4000,async()=>{
+const server=app.listen(process.env.PORT || 4000,async()=>{
     try {
-        // const client = new MongoClient("mongodb+srv://mohith:M0hith_kumar@cluster0.7snlp.mongodb.net/ecommerceDB?retryWrites=true&w=majority");
-        // await client.connect();
-
-    //  console.log(client.db("ecommerceDB").collection("orders"))
-      
-        // const Order = mongoose.model("Order",orderSchema);
-        // watchOrder=client.db("ecommerceDB").collection("orders").watch(
+     
         watchOrder=orderSchema.watch(
             [
             {
-    //             $match: {
-    //                 $and: [
-    //                     // { "orderStatus": "accepted" },
-    //                     { "operationType": 'update'}
-    //                 ]
-    //             }
+  
                 "$match":{
-                    // chnge it to inseret later,now for testing kept update
-                    // operationType:"insert",
+            
                     operationType:"update",
                     "fullDocument.orderStatus":"initiated",
                     "fullDocument.paymentInfo.status":"paid"
@@ -76,18 +64,14 @@ const server=app.listen(process.env.PORT||4000,async()=>{
 
 
          watchOrder.on("change",(next)=>{
-        // console.log('myShopString',next.fullDocument?.shopOwner?.toString())
-         
-            // const thisShopId="629c6a14ff4e0a1707f895ea"
+
             const thisShopId=next.fullDocument?.shop?.toString()
             const newOrder=next.fullDocument
            
-        //  console.log("newOrder",newOrder)
        
             io.to(thisShopId).emit("newOrder",newOrder)
 
 
-// here i added pusher to send to this user
             const beamsClient = new PushNotifications({
                 instanceId: process.env.PUSHER_INSTANCE_ID,
                 secretKey: process.env.PUSHER_SECRET_ID,
@@ -95,8 +79,7 @@ const server=app.listen(process.env.PORT||4000,async()=>{
               try {
                   
              
-            beamsClient
-  .publishToUsers([newOrder.shopOwner?.toString()], {
+            beamsClient.publishToUsers([newOrder.shopOwner?.toString()], {
   
     web: {
       notification: {
@@ -125,12 +108,7 @@ const server=app.listen(process.env.PORT||4000,async()=>{
         console.log(error)
     }
 })
-// const server=app.listen(process.env.PORT,()=>{
-//     console.log(`Server is working on http://localhost:${process.env.PORT}`)
-// })
 
-
-// unhandled Promise Rejection
 
 process.on("unhandledRejection",(err)=>{
     console.log(`Error: ${err.message}`); 
@@ -160,20 +138,7 @@ process.on("unhandledRejection",(err)=>{
  
         console.log("connected to socket.io");
   
-        // watchOrder.on("change",(next)=>{
         
-        //     // console.log(next)
-        //     const thisShopId=next.fullDocument.shop.toString()
-        //     const newOrder=next.fullDocument
-           
-        //     // if(newOrder.paymentInfo.status==="paid"&&newOrder.orderStatus==="initiated"){
-       
-        //     io.to(thisShopId).emit("newOrder",newOrder)
-            
-           
-
-        // // }
-        // })  
 
         socket.on("setup",(shopId)=>{
             socket.join(shopId);
@@ -183,8 +148,5 @@ process.on("unhandledRejection",(err)=>{
             socket.emit("connected")
         })
  
-
-
-
     
 }) 

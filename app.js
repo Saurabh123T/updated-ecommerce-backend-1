@@ -8,21 +8,31 @@ const cors=require("cors")
 
 
 // testing setup to dotEnv config
+<<<<<<< HEAD
+=======
+// dotenv.config({path:"./config.env"})
+>>>>>>> 66e570e273dc302f08af5e4add455b3c11493d52
 if(process.env.NODE_ENV !== "PRODUCTION"){
     const dotenv=require("dotenv");
 dotenv.config({path:"./config.env"})
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 66e570e273dc302f08af5e4add455b3c11493d52
 
 app.use(
-    cors({
+    cors(
+        {
  
-        origin:process.env.FRONTEND_HOST,
-    //  methods:['GET','POST','DELETE','PUT'],
+        origin:[process.env.FRONTEND_HOST],
         credentials:true,
         
-    })
+    }
+    )
 );
+
+
 
 
 const errorMiddleware=require("./middleware/error");
@@ -46,7 +56,19 @@ app.use("/api/v1",user);
 app.use("/api/v1",order);
 app.use("/api/v1",payment);
 
+// app.set("trust proxy", 1);
 
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET || 'Super Secret (change it)',
+//     resave: true,
+//     saveUninitialized: false,
+//     cookie: {
+//       sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+//       secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
+//     }
+//   })
+// );
 
 // middleware for Errors
 app.use(errorMiddleware);
