@@ -113,7 +113,7 @@ try {
     //     "mid"           : process.env.NEXT_PUBLIC_PAYTM_MID,
         "websiteName"   : "YOUR_WEBSITE_NAME",
         "orderId"       : req.body.oid,
-        "callbackUrl"   : `${process.env.BACKEND_HOST}/api/v1/payment/posttransaction`,
+        "callbackUrl"   : `${process.env.BACKEND_HOST}api/v1/payment/posttransaction`,
         "txnAmount"     : {
             "value"     : req.body.OrderTotal,
             "currency"  : "INR",
