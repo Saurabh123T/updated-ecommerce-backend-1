@@ -45,13 +45,14 @@ if(email_verified){
 exports.logout=catchAsyncErrors(async(req,res,next)=>{
     res.cookie("token",null,{
         expires:new Date(Date.now()),
+        secure:true,
+        sameSite:'none',
         httpOnly:true,
     });
 
     res.status(200).json({
         success:true,  
-         secure:true,
-        sameSite:'none',
+        
         message:"Logged Out"
     })
 })
