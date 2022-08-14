@@ -49,7 +49,9 @@ exports.logout=catchAsyncErrors(async(req,res,next)=>{
     });
 
     res.status(200).json({
-        success:true,
+        success:true,  
+         secure:true,
+        sameSite:'none',
         message:"Logged Out"
     })
 })
