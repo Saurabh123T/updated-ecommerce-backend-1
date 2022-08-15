@@ -496,8 +496,8 @@ exports.getSuperAdminShops=catchAsyncErrors(async(req,res,next)=>{
 
     apiFeature=new ApiFeatures(shopSchema.find(),req.query).search().filter().pagination();
   
+    const shops=await apiFeature.query;
  
-     const shops=await apiFeature.query;
 
       res.status(201).json({
         success:true,
