@@ -84,7 +84,7 @@ const server=app.listen(process.env.PORT || 4000,async()=>{
   
     web: {
       notification: {
-        title: `New order - ₹${newOrder.totalPrice}`, 
+        title: `New order(order.Num-${newOrder.orderNumber}) - ₹${newOrder.totalPrice}`, 
         body:`${ newOrder.orderItems.map((ord)=> ord.name+"x"+ord.quantity+", ")}`,
         deep_link: `${process.env.FRONTEND_HOST}/${newOrder.shop}/admin/orders`,
         icon:"https://picsum.photos/200"
