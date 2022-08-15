@@ -50,9 +50,10 @@ const server=app.listen(process.env.PORT || 4000,async()=>{
   
                 "$match":{
             
-                    operationType:"update",
-                    "fullDocument.orderStatus":"initiated",
-                    "fullDocument.paymentInfo.status":"paid"
+                    operationType:"insert",
+                    // operationType:"update",
+                    // "fullDocument.orderStatus":"initiated",
+                    // "fullDocument.paymentInfo.status":"paid"
                 }
             }
         ] 
