@@ -51,7 +51,7 @@ exports.myOrder=catchAsyncErrors(async(req,res,next)=>{
     // const orders=await orderSchema.find({user:req.user._id}).populate("shop","reviews images");
     const ordersCount=await orderSchema.countDocuments({user:req.user._id});
     
-    const apiFeature=new ApiFeatures(orderSchema.find({user:req.user._id}).populate("shop","reviews images"),req.query).pagination();
+    const apiFeature=new ApiFeatures(orderSchema.find({user:req.user._id}).sort({createdAt:-1}).populate("shop","reviews images"),req.query).pagination();
     // const orders=await orderSchema.find({user:req.user._id}).populate("shop","reviews");
     // const orders=await orderSchema.find({user:req.user._id});
     const orders=await apiFeature.query;
@@ -60,6 +60,18 @@ exports.myOrder=catchAsyncErrors(async(req,res,next)=>{
         success:true,
         orders,
         ordersCount
+    })
+});
+// get All Active-Orders-user
+exports.myActiveOrders=catchAsyncErrors(async(req,res,next)=>{
+  
+    // const ordersCount=await orderSchema.countDocuments({user:req.user._id,orderStatus:"accepted"});
+    
+    const activeOrders=await orderSchema.find({user:req.user._id,orderStatus:"accepted"})
+
+    res.status(201).json({
+        success:true,
+        activeOrders,
     })
 });
 
