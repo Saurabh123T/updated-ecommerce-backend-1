@@ -22,6 +22,9 @@ exports.pretransaction=catchAsyncErrors(async(req,res,next)=>{
 if(!shop.isActive){
     return next(new ErrorHandler("sorry, shop is currently unservisable", 404));
 }
+if(shop.shopStatus!=="approved"){
+    return next(new ErrorHandler("sorry, shop is currently unservisable(~pending approval)", 404));
+}
 
 
     // process.env["MKEY"]=Mkey
