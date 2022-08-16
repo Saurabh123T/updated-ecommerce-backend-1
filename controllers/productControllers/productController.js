@@ -33,7 +33,7 @@ if(req.body.categories){
   req.body.categories=categories}
   req.body.shop=req.params.shopId;
   
- 
+  req.body.renewToStock=req.body.Stock
     const product = await productSchema.create(req.body);
 
 
