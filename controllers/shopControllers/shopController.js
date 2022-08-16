@@ -80,7 +80,7 @@ if(req.query.longitude&&req.query.latitude){
     { $near :
        {
          $geometry: { type: "Point",  coordinates: [ req.query.longitude, req.query.latitude ] },
-         $maxDistance: 5000
+         $maxDistance: 50000
        }
     },
     isActive:true

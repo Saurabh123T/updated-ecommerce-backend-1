@@ -29,7 +29,7 @@ const shopSchema =new mongoose.Schema({
     },
     openTime:{
         type:String,
-        default:"9:00"
+        default:"09:00"
     },
     closeTime:{
         type:String,
