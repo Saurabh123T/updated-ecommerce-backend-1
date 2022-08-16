@@ -6,6 +6,7 @@ const PaytmChecksum = require('paytmchecksum');
 const shopSchema=require("../../models/shopModel")
 const orderSchema=require("../../models/orderModel")
 const productSchema=require("../../models/productModel");
+const date = require("date-and-time")
 // const { Console } = require("console");
 
  
@@ -17,7 +18,13 @@ exports.pretransaction=catchAsyncErrors(async(req,res,next)=>{
 
     const Mid=process.env.NEXT_PUBLIC_PAYTM_MID;
     const Mkey=process.env.NEXT_PUBLIC_PAYTM_MKEY;
+    
+    const today=date.format(new Date(), 'dddd').toLowerCase(); 
 
+
+    if(!shop.workingDays.includes(today)){
+        return next(new ErrorHandler(`sorry, shop is closed on ${today}`, 404));
+    }
 
 if(!shop.isActive){
     return next(new ErrorHandler("sorry, shop is currently unservisable", 404));
