@@ -52,17 +52,19 @@ app.use("/api/v1",payment);
 
 app.set("trust proxy", 1);
 
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET || 'Super Secret (change it)',
-//     resave: true,
-//     saveUninitialized: false,
-//     cookie: {
-//       sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
-//       secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
-//     }
-//   })
-// );
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'Super Secret (change it)',
+    resave: true,
+    saveUninitialized: false,
+    cookie: {
+      sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+      secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
+      maxAge:7*24*60*60*1000,
+      httpOnly:true
+    }
+  })
+);
 
 // middleware for Errors
 app.use(errorMiddleware);
