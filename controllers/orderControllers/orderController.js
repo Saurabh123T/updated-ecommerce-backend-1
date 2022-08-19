@@ -67,7 +67,7 @@ exports.myActiveOrders=catchAsyncErrors(async(req,res,next)=>{
   
     // const ordersCount=await orderSchema.countDocuments({user:req.user._id,orderStatus:"accepted"});
     
-    const activeOrders=await orderSchema.find({user:req.user._id,orderStatus:"accepted"})
+    const activeOrders=await orderSchema.find({user:req.user._id,orderStatus:"accepted"}).select('+secretCode')
 
     res.status(201).json({
         success:true,
@@ -181,7 +181,8 @@ exports.getOrdersHistory=catchAsyncErrors(async(req,res,next)=>{
 
 // update Order Status--admin
 exports.updateOrder=catchAsyncErrors(async(req,res,next)=>{
-    let order=await orderSchema.findById(req.params.id);
+    let order=await orderSchema.findById(req.params.id).select('+secretCode');
+    // let order=await orderSchema.findById(req.params.id);
 
     if(!order){
         return next(new ErrorHandler("order not found", 404));
@@ -271,6 +272,14 @@ exports.updateOrder=catchAsyncErrors(async(req,res,next)=>{
         await updateStock(o.product,o.quantity)
     }}
     if(req.body.status==="delivered"){
+      
+        if(!req.body.secretCode){
+            return next(new ErrorHandler("Please enter Code", 400));
+        }
+        if(order.secretCode!=req.body.secretCode){
+            return next(new ErrorHandler("Wrong Code", 400));
+   
+        }
         order.deliveredAt=Date.now();
     }
 

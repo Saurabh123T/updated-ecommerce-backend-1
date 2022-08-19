@@ -82,7 +82,9 @@ try {
         paidAt:Date.now(),
         user:req.user._id,
         orderNumber:Math.floor(Math.random() * 999) + 1,
+        secretCode:Math.floor(Math.random() * (9999) + 1000),
         cookingTime:req.body.cookingTime}
+        
 
         // console.log(testingOrderInfo)
 
@@ -123,7 +125,7 @@ try {
     //     "mid"           : process.env.NEXT_PUBLIC_PAYTM_MID,
         "websiteName"   : "YOUR_WEBSITE_NAME",
         "orderId"       : req.body.oid,
-        "callbackUrl"   : `${process.env.BACKEND_HOST}api/v1/payment/posttransaction`,
+        "callbackUrl"   : `${process.env.BACKEND_HOST}/api/v1/payment/posttransaction`,
         "txnAmount"     : {
             "value"     : req.body.OrderTotal,
             "currency"  : "INR",
