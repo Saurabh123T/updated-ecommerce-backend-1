@@ -190,6 +190,9 @@ exports.updateOrder=catchAsyncErrors(async(req,res,next)=>{
     if(order.orderStatus==="delivered"){
         return next(new ErrorHandler("you have already delivered this order", 400));
     }
+    if(req.params.shopId!==order.shop){
+        return next(new ErrorHandler("This order is not from this current shop", 400));
+    }
     if(order.orderStatus==="accepted"&&(req.body.status==="accepted")){
         return next(new ErrorHandler("you have already Accepted this order", 400));
     }    
