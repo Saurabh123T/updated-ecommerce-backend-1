@@ -18,7 +18,8 @@ const productSchema =new mongoose.Schema({
     },
     cookingTime:{
         type:Number,
-        default:15,
+        // default:15,
+        required:[true,"Please enter Product cooking Time"],
         maxLength:[3,"Please cannot exceed 3 characters"]
     },
     isActive:{
