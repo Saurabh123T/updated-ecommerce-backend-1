@@ -1,5 +1,6 @@
 const shopSchema = require("../../models/shopModel");
 const productSchema=require("../../models/productModel");
+const orderSchema=require("../../models/orderModel");
 const ErrorHandler = require("../../utils/errorhandler");
 const ApiFeatures = require("../../utils/apiFeatures");
 // const { findByIdAndUpdate } = require("../../models/shopModel");
@@ -296,6 +297,7 @@ exports.deleteShop=catchAsyncErrors(async(req,res,next)=>{
     
 
    await productSchema.deleteMany({_id: { $in: shop.products}});
+   await orderSchema.deleteMany({shop:shop._id});
     await userSchema.findByIdAndUpdate({_id:shop.owner},{$pull:{admin:`${req.params.shopId}`}})
 
    await shop.images.forEach(rev=>

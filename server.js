@@ -36,9 +36,12 @@ dotenv.config({path:"./config.env"})
 connectDatabase();
 
 cloudinary.config({ 
-    cloud_name:process.env.CLOUDINARY_NAME,
-    api_key:process.env.CLOUDINARY_API_KEY,
-    api_secret:process.env.CLOUDINARY_API_SECRET
+    cloud_name:'mohith',
+    // cloud_name:process.env.CLOUDINARY_NAME,
+    api_key:"286572367778633",
+    // api_key:process.env.CLOUDINARY_API_KEY,
+    api_secret:'sN7JSh_R4VD3TrUICeu1nxfPj6U'
+    // api_secret:process.env.CLOUDINARY_API_SECRET
 });
 
 const server=app.listen(process.env.PORT || 4000,async()=>{
