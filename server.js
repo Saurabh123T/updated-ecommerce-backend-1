@@ -35,7 +35,7 @@ dotenv.config({path:"./config.env"})
 
 connectDatabase();
 console.log('key',process.env.CLOUDINARY_API_KEY)
-console.log('secret',process.env.CLOUDINARY_API_SECRET)
+console.log('secret',process.env.CLOUDINARY_API_SECRET_KEY)
 console.log('testcorrect',process.env.TESTING)
 console.log('testwrong',process.env.TESTIN)
 cloudinary.config({ 
