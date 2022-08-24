@@ -35,6 +35,7 @@ dotenv.config({path:"./config.env"})
 
 connectDatabase();
 console.log('key',process.env.CLOUDINARY_API_KEY)
+console.log('secret',process.env.CLOUDINARY_API_SECRET)
 cloudinary.config({ 
     cloud_name:'mohith',
     cloud_name:process.env.CLOUDINARY_NAME,
