@@ -375,7 +375,7 @@ const today=date.format(nowDate, 'dddd').toLowerCase();
 if(!(openTimeDiff<0||closeTimeDiff<0)&&shop.workingDays.includes(today)){
 // if(openTimeDiff<0||closeTimeDiff<0||!shop.workingDays.includes(today)){
   // isShopOpen=false 
-  isShopOpen=true 
+  isShopOpen=true; 
 }else{
   isShopOpen=false 
 } 
