@@ -377,7 +377,7 @@ if(!(openTimeDiff<0||closeTimeDiff<0)&&shop.workingDays.includes(today)){
   // isShopOpen=false 
   isShopOpen=true 
 }else{
-  isShopOpen=false
+  isShopOpen=false 
 } 
 
   res.status(200).json({
