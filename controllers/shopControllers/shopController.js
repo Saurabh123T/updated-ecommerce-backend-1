@@ -371,13 +371,17 @@ const closeTimeDiff=  date.subtract(shopCloseDate,nowDate).toMinutes()
 const today=date.format(nowDate, 'dddd').toLowerCase(); 
 
 
-if(!(openTimeDiff<0||closeTimeDiff<0)&&shop.workingDays.includes(today)){
+if(openTimeDiff<0||closeTimeDiff<0){
   // if(openTimeDiff<0||closeTimeDiff<0||!shop.workingDays.includes(today)){
-    // isShopOpen=false 
-    isShopOpen=true; 
-  }else{
     isShopOpen=false 
+    // isShopOpen=true; 
+  }else{
+    isShopOpen=true 
   } 
+
+  if(!shop.workingDays.includes(today)){
+    isShopOpen=false 
+  }
 
   res.status(200).json({
     success:true,
