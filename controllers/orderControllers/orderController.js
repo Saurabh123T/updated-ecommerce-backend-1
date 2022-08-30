@@ -190,7 +190,7 @@ exports.updateOrder=catchAsyncErrors(async(req,res,next)=>{
     if(order.orderStatus==="delivered"){
         return next(new ErrorHandler("you have already delivered this order", 400));
     }
-    if(req.params.shopId!==order.shop){
+    if(req.params.shopId!=order.shop){
         return next(new ErrorHandler("This order is not from this current shop", 400));
     }
     if(order.orderStatus==="accepted"&&(req.body.status==="accepted")){
@@ -268,8 +268,11 @@ exports.updateOrder=catchAsyncErrors(async(req,res,next)=>{
         });
       
     }
+if(req.body.status){
+    order.orderStatus=req.body.status}
+   else{
+    order.startedCooking=req.body.startedCooking}
 
-    order.orderStatus=req.body.status;
     if(order.orderStatus==="accepted"){
     for(o of order.orderItems){
         await updateStock(o.product,o.quantity)

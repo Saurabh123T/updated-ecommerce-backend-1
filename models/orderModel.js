@@ -20,6 +20,10 @@ const orderSchema=new mongoose.Schema({
         required:[true,"please enter proper order id"],
         unique:[true,"please enter unique order id"],
     },
+    startedCooking:{
+        type:Boolean,
+        default:false
+    },
     secretCode:{
         type:String,
         required:[true,"please enter proper secret id"],
