@@ -372,7 +372,7 @@ const today=date.format(nowDate, 'dddd').toLowerCase();
 
 // console.log("opentimediff",openTimeDiff)
 // console.log("closetimediff",closeTimeDiff)
-// console.log("wokingDays",shop.workingDays.includes(today))
+console.log("wokingDays",shop.workingDays.includes(today))
 if(!shop.workingDays.includes(today)){
   isShopOpen=false  }else{
 if(openTimeDiff<0||closeTimeDiff<0){
