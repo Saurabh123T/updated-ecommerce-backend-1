@@ -370,9 +370,9 @@ const closeTimeDiff=  date.subtract(shopCloseDate,nowDate).toMinutes()
 
 const today=date.format(nowDate, 'dddd').toLowerCase(); 
 
-// console.log("opentimediff",openTimeDiff)
-// console.log("closetimediff",closeTimeDiff)
-// console.log("wokingDays",shop.workingDays.includes(today))
+console.log("opentimediff",openTimeDiff)
+console.log("closetimediff",closeTimeDiff)
+console.log("wokingDays",shop.workingDays.includes(today))
 if(!shop.workingDays.includes(today)){
   isShopOpen=false  }else{
 if(openTimeDiff<0||closeTimeDiff<0){
@@ -382,7 +382,7 @@ if(openTimeDiff<0||closeTimeDiff<0){
   }else{  
     isShopOpen=true 
   } 
-  // console.log("isShoopen between",isShopOpen)
+  console.log("isShoopen between",isShopOpen)
   
 
  
