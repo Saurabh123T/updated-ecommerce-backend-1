@@ -372,6 +372,8 @@ const today=date.format(nowDate, 'dddd').toLowerCase();
 
 console.log("opentimediff",openTimeDiff)
 console.log("closetimediff",closeTimeDiff)
+console.log("timeNow",date.format(nowDate, 'hh:mm A [GMT]Z'))
+console.log("timeNow gmt true",date.format(nowDate, 'hh:mm A [GMT]Z', true))
 console.log("wokingDays",shop.workingDays.includes(today))
 if(!shop.workingDays.includes(today)){
   isShopOpen=false  }else{
