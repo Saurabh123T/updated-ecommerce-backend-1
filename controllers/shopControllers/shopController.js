@@ -508,6 +508,8 @@ exports.getShopReviews=catchAsyncErrors(async(req,res,next)=>{
 // get all shops--super admin
 exports.getSuperAdminShops=catchAsyncErrors(async(req,res,next)=>{
   const shopCount=await shopSchema.countDocuments();
+  const pendingShopCount=await shopSchema.countDocuments({shopStatus:"pending"});
+  const rejectedShopCount=await shopSchema.countDocuments({shopStatus:"rejected"});
   
   let apiFeature
   
@@ -520,6 +522,8 @@ exports.getSuperAdminShops=catchAsyncErrors(async(req,res,next)=>{
       res.status(201).json({
         success:true,
         shops,
+        pendingShopCount,
+        rejectedShopCount,
         shopCount
     })
     })
