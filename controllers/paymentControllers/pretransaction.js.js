@@ -123,7 +123,8 @@ try {
         "requestType"   : "Payment",
         "mid"           : Mid,
     //     "mid"           : process.env.NEXT_PUBLIC_PAYTM_MID,
-        "websiteName"   : "YOUR_WEBSITE_NAME",
+        "websiteName"   : "DEFAULT",
+    //     "websiteName"   : "YOUR_WEBSITE_NAME",
         "orderId"       : req.body.oid,
         "callbackUrl"   : `${process.env.BACKEND_HOST}/api/v1/payment/posttransaction`,
         "txnAmount"     : {
@@ -159,7 +160,8 @@ try {
                 var options = {
     
                         /* for Staging */
-                        hostname: 'securegw-stage.paytm.in',
+                        hostname: process.env.NEXT_PUBLIC_PAYTM_HOST_NAME,
+                //         hostname: 'securegw-stage.paytm.in',
                 
                         /* for Production */
                 //         hostname: 'securegw.paytm.in',
