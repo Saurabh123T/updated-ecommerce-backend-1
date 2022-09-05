@@ -256,7 +256,7 @@ exports.updateOrder=catchAsyncErrors(async(req,res,next)=>{
         
                 post_res.on('end', function(){
                    
-                    // console.log('Response: ', JSON.parse(response));
+                    console.log('Response: ', JSON.parse(response));
                 
                 });
             });
