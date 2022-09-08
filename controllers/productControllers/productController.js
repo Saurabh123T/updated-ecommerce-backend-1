@@ -188,7 +188,7 @@ exports.getProductDetails=catchAsyncErrors(async(req,res,next)=>{
    return next(new ErrorHandler("Product not found", 404));
   }
   // product.productShopMid=shop.paymentMethods.
-
+ 
  
   res.status(200).json({
     success:true,
