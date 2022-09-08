@@ -168,8 +168,7 @@ try {
                 
                         port: 443,
                         path: `/theia/api/v1/initiateTransaction?mid=${Mid}&orderId=${req.body.oid}`,
-                //         path: `/theia/api/v1/initiateTransaction?mid=${process.env.NEXT_PUBLIC_PAYTM_MID}&orderId=${req.body.oid}`,
-                        method: 'POST',
+                        method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'Content-Length': post_data.length,

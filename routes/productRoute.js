@@ -11,7 +11,7 @@ router.route("/:shopId/products").get(getAllProducts);
 
 router.route("/:shopId/product/new").post(isAuthenticatedUser,authorizedRoles("admin"),createProduct);
 
-router.route("/:shopId/product/:id").put(isAuthenticatedUser,authorizedRoles("admin"),updateProduct).delete(isAuthenticatedUser,authorizedRoles("admin"),deleteProduct).get(isAuthenticatedUser,getProductDetails)
+router.route("/:shopId/product/:id").put(isAuthenticatedUser,authorizedRoles("admin"),updateProduct).delete(isAuthenticatedUser,authorizedRoles("admin"),deleteProduct).get(getProductDetails)
 // router.route("/:shopId/product/:id").put(isAuthenticatedUser,authorizedRoles("admin"),updateProduct).delete(isAuthenticatedUser,authorizedRoles("admin"),deleteProduct).get(isAuthenticatedUser,authorizedRoles("admin"),getProductDetails)
 
 

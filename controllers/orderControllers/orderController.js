@@ -247,7 +247,7 @@ exports.updateOrder=catchAsyncErrors(async(req,res,next)=>{
                     'Content-Length': post_data.length
                 }
             };
-        
+            console.log("optionss",options)
             var response = "";
             var post_req = https.request(options, function(post_res) {
                 post_res.on('data', function (chunk) {
@@ -256,16 +256,16 @@ exports.updateOrder=catchAsyncErrors(async(req,res,next)=>{
         
                 post_res.on('end', function(){
                    
-                    // console.log('Response: ', JSON.parse(response));
+                    console.log('Response: ', JSON.parse(response));
                 
                 });
-            });
+            }); 
         
             post_req.write(post_data);
             post_req.end();
             
       
-        });
+        });  
       
     }
 if(req.body.status){
