@@ -10,11 +10,11 @@ const date = require("date-and-time")
 // const { Console } = require("console");
 
  
-
+ 
 exports.pretransaction=catchAsyncErrors(async(req,res,next)=>{
     const shop = await shopSchema.findById({_id:req.body.cartShop})
-
-    console.log(date.format(new Date(), 'YYYY/MM/DD HH:mm:ss'))
+ 
+    // console.log(date.format(new Date(), 'YYYY/MM/DD HH:mm:ss'))
     // const Mid=await shop.paymentMethods.paytmMid;
     // const Mkey=await shop.paymentMethods.paytmMkey;
 
