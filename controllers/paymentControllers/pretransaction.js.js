@@ -13,6 +13,8 @@ const date = require("date-and-time")
 
 exports.pretransaction=catchAsyncErrors(async(req,res,next)=>{
     const shop = await shopSchema.findById({_id:req.body.cartShop})
+
+    console.log(new Date())
     // const Mid=await shop.paymentMethods.paytmMid;
     // const Mkey=await shop.paymentMethods.paytmMkey;
 
@@ -147,6 +149,8 @@ try {
     */
    const checksum=await PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body),Mkey)
 //    const checksum=await PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body),process.env.NEXT_PUBLIC_PAYTM_MKEY)
+
+
 
         paytmParams.head = {
             "signature"    : checksum
