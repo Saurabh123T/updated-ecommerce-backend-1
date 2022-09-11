@@ -130,7 +130,7 @@ try {
         "txnAmount"     : {
             "value"     : req.body.OrderTotal,
             "currency"  : "INR",
-        },
+        }, 
         "userInfo"      : {
             "custId"    : req.body.email,
         },
