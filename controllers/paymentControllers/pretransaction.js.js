@@ -163,7 +163,7 @@ try {
     // };
 
 
-    // console.log(paytmParams)
+    console.log(paytmParams)
     
     /*
     * Generate checksum by parameters we have in body
