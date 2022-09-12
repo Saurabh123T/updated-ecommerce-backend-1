@@ -127,7 +127,7 @@ try {
     //     "mid"           : process.env.NEXT_PUBLIC_PAYTM_MID,
         "websiteName"   : "DEFAULT",
     //     "websiteName"   : "YOUR_WEBSITE_NAME",
-        "orderId"       : "492451975524",
+        "orderId"       : "49245197552412",
         "callbackUrl"   : `http://localhost:4000/api/v1/payment/posttransaction`,
         "txnAmount"     : {
             "value"     :"2.01",
@@ -193,7 +193,7 @@ try {
                 //         hostname: 'securegw.paytm.in',
                 
                         port: 443,
-                        path: `/theia/api/v1/initiateTransaction?mid=ZCusof19916324960457&orderId=492451975524`,
+                        path: `/theia/api/v1/initiateTransaction?mid=ZCusof19916324960457&orderId=49245197552412`,
                 //         path: `/theia/api/v1/initiateTransaction?mid=${Mid}&orderId=${req.body.oid}`,
                         method: 'POST',
                         headers: {
