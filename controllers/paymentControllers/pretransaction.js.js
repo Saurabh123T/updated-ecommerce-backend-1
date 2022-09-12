@@ -177,10 +177,10 @@ try {
 
         paytmParams.head = {
             "signature"    : checksum
-        };
+        }; 
     
         var post_data = JSON.stringify(paytmParams);
-    console.log('post_data',post_data)
+    // console.log('post_data',post_data)
 
     const requestAsync=async()=>{ 
         return new Promise((resolve,reject)=>{
