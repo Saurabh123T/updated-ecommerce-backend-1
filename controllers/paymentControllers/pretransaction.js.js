@@ -184,7 +184,7 @@ try {
 
     const requestAsync=async()=>{ 
         return new Promise((resolve,reject)=>{
-                var options = {
+                var options = { 
     
                         /* for Staging */
                         hostname: process.env.NEXT_PUBLIC_PAYTM_HOST_NAME,
