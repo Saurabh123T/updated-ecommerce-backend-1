@@ -127,8 +127,8 @@ try {
     //     "mid"           : process.env.NEXT_PUBLIC_PAYTM_MID,
         "websiteName"   : "DEFAULT",
     //     "websiteName"   : "YOUR_WEBSITE_NAME",
-        "orderId"       : "49245197552412",
-        "callbackUrl"   : `http://localhost:4000/api/v1/payment/posttransaction`,
+        "orderId"       : "49245197552412",   
+    "callbackUrl"   : `${process.env.BACKEND_HOST}/api/v1/payment/posttransaction`,
         "txnAmount"     : {
             "value"     :"2.01",
             "currency"  : "INR",
@@ -163,7 +163,7 @@ try {
     // };
 
 
-    console.log(paytmParams)
+    // console.log(paytmParams)
     
     /*
     * Generate checksum by parameters we have in body
@@ -179,7 +179,7 @@ try {
         };
     
         var post_data = JSON.stringify(paytmParams);
-    // console.log('post_data',post_data)
+    console.log('post_data',post_data)
 
     const requestAsync=async()=>{ 
         return new Promise((resolve,reject)=>{
