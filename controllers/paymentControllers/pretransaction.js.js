@@ -139,7 +139,7 @@ try {
 
         "extendInfo"    :{
             "udf1"  :  '{"orderInfo":{"wantFoodAt":"now","description":""},"orderId":492451975524,"orderItems":[{"product":"62fa6ed9c41689a331a9739b","name":"special tea","cookingTime":25,"price":2,"image":"","stock":50,"quantity":1,"shop":"62fa6d63c41689a331a97353","cartShopMid":"nooooooo","cartShopName":"BH 1 cafe","cartShopOpenTime":"00:05","cartShopCloseTime":"23:50"}],"itemsPrice":2,"conveniencePrice":0.01,"totalPrice":2.01,"shop":"62fa6d63c41689a331a97353","shopName":"BH 1 cafe","paidAt":1662991447987,"user":"62ac29a236225f0796757429","orderNumber":808,"secretCode":9312,"cookingTime":25}',
-        }
+        } 
     };
     // paytmParams.body = {
     //     "requestType"   : "Payment",
