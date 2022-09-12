@@ -123,24 +123,46 @@ try {
     
     paytmParams.body = {
         "requestType"   : "Payment",
-        "mid"           : Mid,
+        "mid"           : "ZCusof19916324960457",
     //     "mid"           : process.env.NEXT_PUBLIC_PAYTM_MID,
         "websiteName"   : "DEFAULT",
     //     "websiteName"   : "YOUR_WEBSITE_NAME",
-        "orderId"       : req.body.oid,
-        "callbackUrl"   : `${process.env.BACKEND_HOST}/api/v1/payment/posttransaction`,
+        "orderId"       : "492451975524",
+        "callbackUrl"   : `http://localhost:4000/api/v1/payment/posttransaction`,
         "txnAmount"     : {
-            "value"     : req.body.OrderTotal,
+            "value"     :"2.01",
             "currency"  : "INR",
         }, 
         "userInfo"      : {
-            "custId"    : req.body.email,
+            "custId"    : 'email',
         },
 
         "extendInfo"    :{
-            "udf1"  :   JSON.stringify(testingOrderInfo),
+            "udf1"  :  '{"orderInfo":{"wantFoodAt":"now","description":""},"orderId":492451975524,"orderItems":[{"product":"62fa6ed9c41689a331a9739b","name":"special tea","cookingTime":25,"price":2,"image":"","stock":50,"quantity":1,"shop":"62fa6d63c41689a331a97353","cartShopMid":"nooooooo","cartShopName":"BH 1 cafe","cartShopOpenTime":"00:05","cartShopCloseTime":"23:50"}],"itemsPrice":2,"conveniencePrice":0.01,"totalPrice":2.01,"shop":"62fa6d63c41689a331a97353","shopName":"BH 1 cafe","paidAt":1662991447987,"user":"62ac29a236225f0796757429","orderNumber":808,"secretCode":9312,"cookingTime":25}',
         }
     };
+    // paytmParams.body = {
+    //     "requestType"   : "Payment",
+    //     "mid"           : Mid,
+    // //     "mid"           : process.env.NEXT_PUBLIC_PAYTM_MID,
+    //     "websiteName"   : "DEFAULT",
+    // //     "websiteName"   : "YOUR_WEBSITE_NAME",
+    //     "orderId"       : req.body.oid,
+    //     "callbackUrl"   : `${process.env.BACKEND_HOST}/api/v1/payment/posttransaction`,
+    //     "txnAmount"     : {
+    //         "value"     : req.body.OrderTotal,
+    //         "currency"  : "INR",
+    //     }, 
+    //     "userInfo"      : {
+    //         "custId"    : req.body.email,
+    //     },
+
+    //     "extendInfo"    :{
+    //         "udf1"  :   JSON.stringify(testingOrderInfo),
+    //     }
+    // };
+
+
     // console.log(paytmParams)
     
     /*
@@ -171,7 +193,8 @@ try {
                 //         hostname: 'securegw.paytm.in',
                 
                         port: 443,
-                        path: `/theia/api/v1/initiateTransaction?mid=${Mid}&orderId=${req.body.oid}`,
+                        path: `/theia/api/v1/initiateTransaction?mid=ZCusof19916324960457&orderId=492451975524`,
+                //         path: `/theia/api/v1/initiateTransaction?mid=${Mid}&orderId=${req.body.oid}`,
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
