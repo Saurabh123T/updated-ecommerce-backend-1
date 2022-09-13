@@ -17,7 +17,7 @@ exports.pretransaction=catchAsyncErrors(async(req,res,next)=>{
     // console.log(date.format(new Date(), 'YYYY/MM/DD HH:mm:ss'))
     // const Mid=await shop.paymentMethods.paytmMid;
     // const Mkey=await shop.paymentMethods.paytmMkey;
-
+ 
     const Mid=process.env.NEXT_PUBLIC_PAYTM_MID;
     const Mkey=process.env.NEXT_PUBLIC_PAYTM_MKEY;
     
