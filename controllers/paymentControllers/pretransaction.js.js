@@ -9,7 +9,7 @@ const productSchema=require("../../models/productModel");
 const date = require("date-and-time")
 // const { Console } = require("console");
 
- 
+  
  
 exports.pretransaction=catchAsyncErrors(async(req,res,next)=>{
     const shop = await shopSchema.findById({_id:req.body.cartShop})
