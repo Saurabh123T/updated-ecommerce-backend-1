@@ -94,7 +94,7 @@ const shopSchema =new mongoose.Schema({
     // },
     paymentMethods:{
         paytmMid:{type:String,required:true},
-        paytmMkey:{type:String,required:true,select:false}
+        // paytmMkey:{type:String,required:true,select:false}
     },
     locationCoords:{
         // latitude:{type:String,required:true},
