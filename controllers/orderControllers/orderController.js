@@ -247,7 +247,7 @@ exports.updateOrder=catchAsyncErrors(async(req,res,next)=>{
                     'Content-Length': post_data.length
                 }
             };
-            console.log("optionss",options)
+            // console.log("optionss",options)
             var response = "";
             var post_req = https.request(options, function(post_res) {
                 post_res.on('data', function (chunk) {

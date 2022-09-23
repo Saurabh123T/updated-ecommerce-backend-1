@@ -154,17 +154,29 @@ try {
             "currency"  : "INR",
         }, 
         "userInfo"      : {
-            "custId"    : "mohithkumar808@gmail.com",
-    //         "custId"    : req.body.email,
+    //         "custId"    : "mohithkumar808@gmail.com",
+            "custId"    : req.user._id,
         },
 
         "extendInfo"    :{
             "udf1"  :   JSON.stringify(testingOrderInfo),
-        }
+        },
+        // "splitSettlementInfo":{
+        //     "splitMethod":"AMOUNT",
+        //     "splitInfo":[{
+        //     "mid":shop.paymentMethods.paytmMid,
+        //     "amount":{
+        //       "value":req.body.SubTotal.toString(),
+        //       "currency":"INR"
+        //     },
+        //     }]
+        // } 
+
+        
     };
 
 
-    // console.log(paytmParams)
+    // console.log(paytmParams.body)
     
     /*
     * Generate checksum by parameters we have in body
