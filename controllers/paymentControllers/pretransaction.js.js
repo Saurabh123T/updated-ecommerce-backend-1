@@ -9,6 +9,8 @@ const productSchema=require("../../models/productModel");
 const date = require("date-and-time")
 // const { Console } = require("console");
 
+const axios = require('axios');
+
   
  
 exports.pretransaction=catchAsyncErrors(async(req,res,next)=>{
@@ -88,59 +90,15 @@ try {
         cookingTime:req.body.cookingTime}
         
 
-        // console.log(testingOrderInfo)
-
-
-
-
-// if(a===[]){
-
-
-    // const order=await orderSchema.create({
-    //     orderInfo:req.body.orderInfo,
-    //     orderId:req.body.oid,
-    //     orderItems:req.body.cartItems,
-    //     itemsPrice:req.body.SubTotal,
-    //     conveniencePrice:req.body.ConvenienceCharge,
-    //     totalPrice:req.body.OrderTotal,
-    //     shop:req.body.cartShop,
-    //     shopName:req.body.cartShopName,
-    //     paidAt:Date.now(),
-    //     user:req.user._id,
-    //     cookingTime:req.body.cookingTime
-    // })
-
-
-    // console.log(order)
-// }
 } catch (error) {
-    // console.log(error)
     return next(new ErrorHandler("some error in order", 404));
 }
 
-
     var paytmParams = {};
     
-    // paytmParams.body = {
-    //     "requestType"   : "Payment",
-    //     "mid"           : "ZCusof19916324960457",
-    // //     "mid"           : process.env.NEXT_PUBLIC_PAYTM_MID,
-    //     "websiteName"   : "DEFAULT",
-    // //     "websiteName"   : "YOUR_WEBSITE_NAME",
-    //     "orderId"       : "492451975524123",   
-    // "callbackUrl"   : `${process.env.BACKEND_HOST}/api/v1/payment/posttransaction`,
-    //     "txnAmount"     : {
-    //         "value"     :"2.01",
-    //         "currency"  : "INR",
-    //     }, 
-    //     "userInfo"      : {
-    //         "custId"    : 'email',
-    //     },
+ 
 
-    //     "extendInfo"    :{
-    //         "udf1"  :  '{"orderInfo":{"wantFoodAt":"now","description":""},"orderId":492451975524,"orderItems":[{"product":"62fa6ed9c41689a331a9739b","name":"special tea","cookingTime":25,"price":2,"image":"","stock":50,"quantity":1,"shop":"62fa6d63c41689a331a97353","cartShopMid":"nooooooo","cartShopName":"BH 1 cafe","cartShopOpenTime":"00:05","cartShopCloseTime":"23:50"}],"itemsPrice":2,"conveniencePrice":0.01,"totalPrice":2.01,"shop":"62fa6d63c41689a331a97353","shopName":"BH 1 cafe","paidAt":1662991447987,"user":"62ac29a236225f0796757429","orderNumber":808,"secretCode":9312,"cookingTime":25}',
-    //     } 
-    // };
+ 
     paytmParams.body = {
         "requestType"   : "Payment",
         "mid"           : Mid,
@@ -175,16 +133,7 @@ try {
         
     };
 
-
-    // console.log(paytmParams.body)
-    
-    /*
-    * Generate checksum by parameters we have in body
-    * Find your Merchant Key in your Paytm Dashboard at https://dashboard.paytm.com/next/apikeys 
-    */
    const checksum=await PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body),Mkey)
-//    const checksum=await PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body),process.env.NEXT_PUBLIC_PAYTM_MKEY)
-
 
 
         paytmParams.head = {
@@ -192,7 +141,7 @@ try {
         }; 
     
         var post_data = JSON.stringify(paytmParams);
-    // console.log('post_data',post_data)
+  
 
     const requestAsync=async()=>{ 
         return new Promise((resolve,reject)=>{
@@ -206,7 +155,6 @@ try {
                 //         hostname: 'securegw.paytm.in',
                 
                         port: 443,
-                //         path: `/theia/api/v1/initiateTransaction?mid=ZCusof19916324960457&orderId=492451975524123`,
                         path: `/theia/api/v1/initiateTransaction?mid=${Mid}&orderId=${req.body.oid}`,
                         method: 'POST',
                         headers: {
@@ -236,19 +184,62 @@ try {
                     post_req.end();
         })
     }
+
     
+
+
+
+
+
+
+//     let response
+//     const requestAsync=async()=>{
+     
+//    response=await axios.post(
+//             'https://sandbox.cashfree.com/pg/orders',
+//              {
+//                 "order_id": (Math.floor(Math.random() * 999) + 1).toString(),
+//                 "order_amount": 10.12,
+//                 "order_currency": "INR",
+//                 "order_note": "Additional order info",
+//                 "customer_details": {
+//                  "customer_id": "12345",
+//                   "customer_name": "name",
+//                   "customer_email": "care@cashfree.com",
+//                   "customer_phone": "9816512345"
+//                 }
+//               },
+//             {
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                     'x-api-version': '2022-01-01',
+//                     'x-client-id': '23989880f5546acf7d76b8cab1898932',
+//                     'x-client-secret': '9cafde7c7184a810f9259d9c617b095cbd6edbae'
+//                 }
+//             }) 
+
+//     }
+     
+//    await requestAsync()
+//     let myr=response.data
+
+
+
+
+
+
+
+
     let myr=await requestAsync()
-
-   
-    // console.log(myr)
-
 
 
 
 
 
     res.status(200).json(
-       myr
+       myr,
+
+
     //    order
     )
 });
