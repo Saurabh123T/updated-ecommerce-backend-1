@@ -193,7 +193,8 @@ exports.getProductDetails=catchAsyncErrors(async(req,res,next)=>{
   res.status(200).json({
     success:true,
    product,
-   productShopPaytmMid:shop.paymentMethods.paytmMid,
+   productShopUpiId:shop.paymentMethods.upiId,
+  //  productShopPaytmMid:shop.paymentMethods.paytmMid,
    productShopName:shop.name,
    productShopOpenTime:shop.openTime,
    productShopCloseTime:shop.closeTime,

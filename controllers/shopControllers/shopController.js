@@ -7,12 +7,36 @@ const ApiFeatures = require("../../utils/apiFeatures");
 const userSchema = require("../../models/userModel");
 const catchAsyncErrors = require("../../middleware/catchAsyncErrors");
 const cloudinary = require("cloudinary");
+const axios=require("axios")
 // const adminOrderSchema = require("../../models/adminOrderModel");
 
 const date=require("date-and-time")
 
 // create Shop 
 exports.createShop=catchAsyncErrors(async(req,res,next)=>{
+ 
+try {
+  const response=await axios.get(`https://api.cashfree.com/api/v2/upi/validate/${JSON.parse(req.body.paymentMethods).upiId}`,
+    {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-version': process.env.CASHFREE_VERSION,
+          'x-client-id': process.env.CASHFREE_ID,
+          'x-client-secret': process.env.CASHFREE_KEY
+        
+        }
+    }
+); 
+} catch (error) {
+  return next(new ErrorHandler("Invalid upi id", 404));
+} 
+
+
+
+
+
+
+
 
   let images = [];
 
@@ -59,6 +83,47 @@ exports.createShop=catchAsyncErrors(async(req,res,next)=>{
   //   })
    const updateUser= await userSchema.findByIdAndUpdate({_id:req.user.id},{$push:{admin:`${shop._id}`}});
   //  console.log(updateUser)
+
+
+
+
+
+
+try {
+  
+
+    const response = await axios.post(
+    'https://api.cashfree.com/api/v2/easy-split/vendors',
+    {
+        'email': req.user.email,
+        'status': 'ACTIVE',
+        'upi': {
+            'vpa': shop.paymentMethods.upiId,
+            'accountHolder': req.user.name
+        },
+        'phone': req.body.number,
+        'name': req.user.name,
+        'id': shop._id.toString(),
+        'settlementCycleId': 2,
+        'verifyAccount': true 
+    },
+    {
+        headers: {
+          'x-client-id': process.env.CASHFREE_ID,
+          'x-client-secret': process.env.CASHFREE_KEY,
+            'Content-Type': 'application/json'
+        }
+    }
+); 
+
+// console.log(response)
+
+} catch (error) {
+  // console.log("error",error)
+}
+
+
+
     res.status(201).json({
         success:true,
         shop
@@ -211,7 +276,40 @@ const productCount=await productSchema.countDocuments();
 
 // update shop --role admin
 exports.updateShop=catchAsyncErrors(async(req,res,next)=>{
-    let shop = await shopSchema.findById(req.params.shopId);
+  let shop = await shopSchema.findById(req.params.shopId);
+
+if(req.body.paymentMethods){
+  try {
+    const response = await axios.put(
+    `https://api.cashfree.com/api/v2/easy-split/vendors/${req.params.shopId}`,
+    {
+
+        'upi': {
+            'vpa': JSON.parse(req.body.paymentMethods).upiId,
+        },
+        'phone': req.body.number||shop.number,
+        'verifyAccount': true
+    },
+    {
+        headers: {
+          'x-client-id': process.env.CASHFREE_ID,
+          'x-client-secret': process.env.CASHFREE_KEY,
+            'Content-Type': 'application/json'
+        }
+    }
+); 
+
+} catch (error) {
+  // console.log(error)
+  return next(new ErrorHandler("Invalid upi id/phone number", 404));
+}
+
+}
+
+
+   
+
+
   
     if(!shop){
       return next(new ErrorHandler("Shop not found", 404));

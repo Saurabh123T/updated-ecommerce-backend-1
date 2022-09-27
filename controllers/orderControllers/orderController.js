@@ -10,6 +10,7 @@ const date = require('date-and-time');
 const https = require('https');
 const PaytmChecksum = require('paytmchecksum');
 const ApiFeatures = require("../../utils/apiFeatures");
+const axios = require("axios");
 
 
 
@@ -206,68 +207,95 @@ exports.updateOrder=catchAsyncErrors(async(req,res,next)=>{
     }
 
 // here i implemented refund
-    if(req.body.status==="rejected"){
+    // if(req.body.status==="rejected"){
   
 
-        var paytmParams = {};
+    //     var paytmParams = {};
 
-        paytmParams.body = {
-            "mid"          : process.env.NEXT_PUBLIC_PAYTM_MID,
-            "txnType"      : "REFUND",
-            "orderId"      : order.orderId,
-            "txnId"        : order.paymentInfo.id,
-            "refId"        : Math.floor(Math.random()*Date.now()).toString(),
-            "refundAmount" : order.totalPrice.toString(),
-        };
+    //     paytmParams.body = {
+    //         "mid"          : process.env.NEXT_PUBLIC_PAYTM_MID,
+    //         "txnType"      : "REFUND",
+    //         "orderId"      : order.orderId,
+    //         "txnId"        : order.paymentInfo.id,
+    //         "refId"        : Math.floor(Math.random()*Date.now()).toString(),
+    //         "refundAmount" : order.totalPrice.toString(),
+    //     };
 
-        // console.log("params bodyyyyyy",paytmParams)
+    //     // console.log("params bodyyyyyy",paytmParams)
 
-        PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body), process.env.NEXT_PUBLIC_PAYTM_MKEY).then(function(checksum){
+    //     PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body), process.env.NEXT_PUBLIC_PAYTM_MKEY).then(function(checksum){
 
-            paytmParams.head = {
-                "signature"  : checksum
-            };
+    //         paytmParams.head = {
+    //             "signature"  : checksum
+    //         };
         
-            var post_data = JSON.stringify(paytmParams);
+    //         var post_data = JSON.stringify(paytmParams);
         
-            var options = {
+    //         var options = {
         
-                /* for Staging */
-                // hostname: "securegw-stage.paytm.in",
-                hostname: process.env.NEXT_PUBLIC_PAYTM_HOST_NAME,
+    //             /* for Staging */
+    //             // hostname: "securegw-stage.paytm.in",
+    //             hostname: process.env.NEXT_PUBLIC_PAYTM_HOST_NAME,
         
-                /* for Production */
-                // hostname: 'securegw.paytm.in',
+    //             /* for Production */
+    //             // hostname: 'securegw.paytm.in',
         
-                port: 443,
-                path: '/refund/apply',
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Content-Length': post_data.length
-                }
-            };
-            // console.log("optionss",options)
-            var response = "";
-            var post_req = https.request(options, function(post_res) {
-                post_res.on('data', function (chunk) {
-                    response += chunk;
-                });
+    //             port: 443,
+    //             path: '/refund/apply',
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Content-Length': post_data.length
+    //             }
+    //         };
+    //         // console.log("optionss",options)
+    //         var response = "";
+    //         var post_req = https.request(options, function(post_res) {
+    //             post_res.on('data', function (chunk) {
+    //                 response += chunk;
+    //             });
         
-                post_res.on('end', function(){
+    //             post_res.on('end', function(){
                    
-                    console.log('Response: ', JSON.parse(response));
+    //                 console.log('Response: ', JSON.parse(response));
                 
-                });
-            }); 
+    //             });
+    //         }); 
         
-            post_req.write(post_data);
-            post_req.end();
+    //         post_req.write(post_data);
+    //         post_req.end();
             
       
-        });  
+    //     });  
       
+    // }
+if(req.body.status==="rejected"){
+    try {
+        const response = await axios.post(
+        `${process.env.CASHFREE_HOST}/orders/${order.orderId}/refunds`,
+        {
+            "refund_amount":order.totalPrice,
+            "refund_id":"refund_"+Math.floor(Math.random()*Date.now()).toString()
+        },
+        {
+            headers: {
+              'x-client-id': process.env.CASHFREE_ID,
+              'x-client-secret': process.env.CASHFREE_KEY,
+                'Content-Type': 'application/json',
+                "x-api-version":process.env.CASHFREE_VERSION
+            }
+        }
+    ); 
+    
+    } catch (error) {
+    //   console.log(error)
+      return next(new ErrorHandler("Unable to initiate refund", 404));
     }
+}
+
+
+
+
 if(req.body.status){
     order.orderStatus=req.body.status}
    else{

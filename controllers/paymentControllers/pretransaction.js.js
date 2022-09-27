@@ -143,107 +143,107 @@ try {
         var post_data = JSON.stringify(paytmParams);
   
 
-    const requestAsync=async()=>{ 
-        return new Promise((resolve,reject)=>{
-                var options = { 
+    // const requestAsync=async()=>{ 
+    //     return new Promise((resolve,reject)=>{
+    //             var options = { 
     
-                        /* for Staging */
-                        hostname: process.env.NEXT_PUBLIC_PAYTM_HOST_NAME,
-                //         hostname: 'securegw-stage.paytm.in',
+    //                     /* for Staging */
+    //                     hostname: process.env.NEXT_PUBLIC_PAYTM_HOST_NAME,
+    //             //         hostname: 'securegw-stage.paytm.in',
                 
-                        /* for Production */
-                //         hostname: 'securegw.paytm.in',
+    //                     /* for Production */
+    //             //         hostname: 'securegw.paytm.in',
                 
-                        port: 443,
-                        path: `/theia/api/v1/initiateTransaction?mid=${Mid}&orderId=${req.body.oid}`,
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Content-Length': post_data.length,
+    //                     port: 443,
+    //                     path: `/theia/api/v1/initiateTransaction?mid=${Mid}&orderId=${req.body.oid}`,
+    //                     method: 'POST',
+    //                     headers: {
+    //                         'Content-Type': 'application/json',
+    //                         'Content-Length': post_data.length,
                 
-                        }
-                    };
+    //                     }
+    //                 };
                 
-                    var response = "";
-                    var post_req = https.request(options, function(post_res) {
-                        post_res.on('data', function (chunk) {
-                            response += chunk;
+    //                 var response = "";
+    //                 var post_req = https.request(options, function(post_res) {
+    //                     post_res.on('data', function (chunk) {
+    //                         response += chunk;
              
-                        });
+    //                     });
                  
-                        post_res.on('end', function(){
-                //             console.log('Response: ', response);
-                           
-                    let ress=JSON.parse(response).body
-                    ress.success=true
-                      resolve(ress)   
-              });
-                    });
+    //                     post_res.on('end', function(){
+    //             //             console.log('Response: ', response);
+    //                        
+    //                 let ress=JSON.parse(response).body
+    //                 ress.success=true
+    //                   resolve(ress)   
+    //           });
+    //                 });
                 
-                     post_req.write(post_data);
-                    post_req.end();
-        })
+    //                  post_req.write(post_data);
+    //                 post_req.end();
+    //     })
+    // }
+
+    
+
+
+
+
+
+
+    let response
+    const requestAsync=async()=>{
+    //  console.log( JSON.stringify(testingOrderInfo))
+    const orderDetails={
+        "order_id": req.body.oid.toString(),
+        "order_amount": req.body.OrderTotal,
+        "order_currency": "INR",
+        "order_note": `order note here`,
+            //     "order_meta":{
+            // "notify_url":`${process.env.FRONTEND_HOST}/cart`,
+            //     "return_url":`${process.env.FRONTEND_HOST}/newOrder/loading?order_id={order_id}&order_token={order_token} `,
+            //     },
+            "order_splits": [{
+                "vendor_id": req.body.cartShop,
+                "amount": req.body.SubTotal
+            }
+        ],
+        "customer_details": {
+         "customer_id": req.user._id.toString(),
+          "customer_name":req.user.name,
+          "customer_email": req.user.email,
+          "customer_phone": "9816512345"
+        }
+      }
+   
+   response=await axios.post(
+            `${process.env.CASHFREE_HOST}/orders`,
+         orderDetails ,
+            {
+                headers: {
+              
+                    'Content-Type': 'application/json',
+                    'x-api-version': process.env.CASHFREE_VERSION,
+                    'x-client-id': process.env.CASHFREE_ID,
+                    'x-client-secret': process.env.CASHFREE_KEY
+                }
+            }) 
+
     }
 
-    
-
-
-
-
-
-
-//     let response
-//     const requestAsync=async()=>{
-//     //  console.log( JSON.stringify(testingOrderInfo))
-//     const orderDetails={
-//         "order_id": req.body.oid.toString(),
-//         "order_amount": req.body.OrderTotal,
-//         "order_currency": "INR",
-//         "order_note": `order note here`,
-//             //     "order_meta":{
-//             // "notify_url":`${process.env.FRONTEND_HOST}/cart`,
-//             //     "return_url":`${process.env.FRONTEND_HOST}/newOrder/loading?order_id={order_id}&order_token={order_token} `,
-//             //     },
-//         //     "order_splits": [{
-//         //         "vendor_id": "vendor_mohith",
-//         //         "amount": req.body.subTotal
-//         //     }
-//         // ],
-//         "customer_details": {
-//          "customer_id": req.user._id.toString(),
-//           "customer_name":req.user.name,
-//           "customer_email": req.user.email,
-//           "customer_phone": "9816512345"
-//         }
-//       }
-   
-//    response=await axios.post(
-//             `${process.env.CASHFREE_HOST}/orders`,
-//          orderDetails ,
-//             {
-//                 headers: {
-              
-//                     'Content-Type': 'application/json',
-//                     'x-api-version': process.env.CASHFREE_VERSION,
-//                     'x-client-id': process.env.CASHFREE_ID,
-//                     'x-client-secret': process.env.CASHFREE_KEY
-//                 }
-//             }) 
-
-//     }
-
      
-//    await requestAsync()
-//     let myr=response.data
-// // console.log(myr)
+   await requestAsync()
+    let myr=response.data
+// console.log(myr)
 
 
 
+ 
 
 
 
-
-    let myr=await requestAsync()
+    // let myr=await requestAsync()
 
 
 

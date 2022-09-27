@@ -15,6 +15,14 @@ const shopSchema =new mongoose.Schema({
         type:String,
         required:[true,"Please enter Shop location"]
     },
+
+    number:{
+        type:Number,
+        required:[true,"Please enter a valid number"],
+        minlength:[10,"number should be atleat 10 digits"], 
+        maxlength:[12,"number should be below 12 digits"],
+        select:false
+    },
     ratings:{
         type:Number,
         default:0
@@ -93,8 +101,12 @@ const shopSchema =new mongoose.Schema({
     //     default:Date.now
     // },
     paymentMethods:{
-        paytmMid:{type:String,required:true},
+        // paytmMid:{type:String,required:true},
         // paytmMkey:{type:String,required:true,select:false}
+        upiId:{
+            type:String,
+            required:[true,"Please enter a valid UPI id"]
+        },
     },
     locationCoords:{
         // latitude:{type:String,required:true},
