@@ -143,85 +143,99 @@ try {
         var post_data = JSON.stringify(paytmParams);
   
 
-    const requestAsync=async()=>{ 
-        return new Promise((resolve,reject)=>{
-                var options = { 
+    // const requestAsync=async()=>{ 
+    //     return new Promise((resolve,reject)=>{
+    //             var options = { 
     
-                        /* for Staging */
-                        hostname: process.env.NEXT_PUBLIC_PAYTM_HOST_NAME,
-                //         hostname: 'securegw-stage.paytm.in',
+    //                     /* for Staging */
+    //                     hostname: process.env.NEXT_PUBLIC_PAYTM_HOST_NAME,
+    //             //         hostname: 'securegw-stage.paytm.in',
                 
-                        /* for Production */
-                //         hostname: 'securegw.paytm.in',
+    //                     /* for Production */
+    //             //         hostname: 'securegw.paytm.in',
                 
-                        port: 443,
-                        path: `/theia/api/v1/initiateTransaction?mid=${Mid}&orderId=${req.body.oid}`,
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Content-Length': post_data.length,
+    //                     port: 443,
+    //                     path: `/theia/api/v1/initiateTransaction?mid=${Mid}&orderId=${req.body.oid}`,
+    //                     method: 'POST',
+    //                     headers: {
+    //                         'Content-Type': 'application/json',
+    //                         'Content-Length': post_data.length,
                 
-                        }
-                    };
+    //                     }
+    //                 };
                 
-                    var response = "";
-                    var post_req = https.request(options, function(post_res) {
-                        post_res.on('data', function (chunk) {
-                            response += chunk;
+    //                 var response = "";
+    //                 var post_req = https.request(options, function(post_res) {
+    //                     post_res.on('data', function (chunk) {
+    //                         response += chunk;
              
-                        });
+    //                     });
                  
-                        post_res.on('end', function(){
-                //             console.log('Response: ', response);
-                           
-                    let ress=JSON.parse(response).body
-                    ress.success=true
-                      resolve(ress)   
-              });
-                    });
+    //                     post_res.on('end', function(){
+    //             //             console.log('Response: ', response);
+    //                        
+    //                 let ress=JSON.parse(response).body
+    //                 ress.success=true
+    //                   resolve(ress)   
+    //           });
+    //                 });
                 
-                     post_req.write(post_data);
-                    post_req.end();
-        })
+    //                  post_req.write(post_data);
+    //                 post_req.end();
+    //     })
+    // }
+
+    
+
+
+
+
+
+
+    let response
+    const requestAsync=async()=>{
+    //  console.log( JSON.stringify(testingOrderInfo))
+    const orderDetails={
+        "order_id": req.body.oid.toString(),
+        "order_amount": req.body.OrderTotal,
+        "order_currency": "INR",
+        "order_note": `order note here`,
+            //     "order_meta":{
+            // "notify_url":`${process.env.FRONTEND_HOST}/cart`,
+            //     "return_url":`${process.env.FRONTEND_HOST}/newOrder/loading?order_id={order_id}&order_token={order_token} `,
+            //     },
+        //     "order_splits": [{
+        //         "vendor_id": "vendor_mohith",
+        //         "amount": req.body.subTotal
+        //     }
+        // ],
+        "customer_details": {
+         "customer_id": req.user._id.toString(),
+          "customer_name":req.user.name,
+          "customer_email": req.user.email,
+          "customer_phone": "9816512345"
+        }
+      }
+   
+   response=await axios.post(
+            `${process.env.CASHFREE_HOST}/orders`,
+         orderDetails ,
+            {
+                headers: {
+              
+                    'Content-Type': 'application/json',
+                    'x-api-version': process.env.CASHFREE_VERSION,
+                    'x-client-id': process.env.CASHFREE_ID,
+                    'x-client-secret': process.env.CASHFREE_KEY
+                }
+            }) 
+
     }
 
-    
-
-
-
-
-
-
-//     let response
-//     const requestAsync=async()=>{
      
-//    response=await axios.post(
-//             'https://sandbox.cashfree.com/pg/orders',
-//              {
-//                 "order_id": (Math.floor(Math.random() * 999) + 1).toString(),
-//                 "order_amount": 10.12,
-//                 "order_currency": "INR",
-//                 "order_note": "Additional order info",
-//                 "customer_details": {
-//                  "customer_id": "12345",
-//                   "customer_name": "name",
-//                   "customer_email": "care@cashfree.com",
-//                   "customer_phone": "9816512345"
-//                 }
-//               },
-//             {
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                     'x-api-version': '2022-01-01',
-//                     'x-client-id': '23989880f5546acf7d76b8cab1898932',
-//                     'x-client-secret': '9cafde7c7184a810f9259d9c617b095cbd6edbae'
-//                 }
-//             }) 
-
-//     }
-     
-//    await requestAsync()
-//     let myr=response.data
+   await requestAsync()
+    let myr=response.data
+// console.log(myr)
 
 
 
@@ -229,8 +243,7 @@ try {
 
 
 
-
-    let myr=await requestAsync()
+    // let myr=await requestAsync()
 
 
 

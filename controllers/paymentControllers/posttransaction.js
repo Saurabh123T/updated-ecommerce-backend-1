@@ -3,65 +3,120 @@ const PaytmChecksum=require("paytmchecksum");
 const ErrorHandler = require("../../utils/errorhandler");
 const orderSchema = require("../../models/orderModel");
 const shopSchema = require("../../models/shopModel");
+const axios=require("axios")
 
  
  
 
 exports.posttransaction=catchAsyncErrors(async(req,res,next)=>{
- 
-
-if(req.body.STATUS==="TXN_SUCCESS"){
-    let orderInfo= JSON.parse( req.body.UDF_1 )
-    // console.log(orderInfo)
-
-    // here i am validating paytm checksum
-    // const order=await orderSchema.findOne({orderId:req.body.ORDERID}).populate("shop","paymentMethods owner")
-    // const Mkey=order.shop.paymentMethods.paytmMkey
+   
 
 
-    // console.log("ttttttt")
-    let shop=await shopSchema.findById(orderInfo.shop)
-    // const Mkey=shop.paymentMethods.paytmMkey
-
-    // console.log(Mkey)
-    var paytmChecksum="";
-    paytmChecksum = req.body.CHECKSUMHASH;
-    // var isVerifySignature = PaytmChecksum.verifySignature(req.body,Mkey, paytmChecksum);
-
-    var isVerifySignature = PaytmChecksum.verifySignature(req.body, process.env.NEXT_PUBLIC_PAYTM_MKEY, paytmChecksum);
-if (!isVerifySignature) {
-    return next(new ErrorHandler("Checksum Mismatch-Dont try to tamper", 404));
-} 
- 
-
-
-
-//    await orderSchema.findOneAndUpdate({orderId:req.body.ORDERID},{paymentInfo:{status:"paid",id:req.body.TXNID}})
-// const testShop=await shop.findOne(orderInfo.shop)
-
-
-   orderInfo.shopOwner=shop.owner
-   orderInfo.paidAt=Date.now();
-   orderInfo.paymentInfo={status:"paid",id:req.body.TXNID}
-
-  let order= await orderSchema.create(orderInfo)
-
-
-  res.redirect(`${process.env.FRONTEND_HOST}/newOrder/${order._id}?shopId=${order.shop}&clearCart=true`);
+const response = await axios.get(`${process.env.CASHFREE_HOST}/orders/${req.body.data.oid}`, {
+    headers: {
+        'accept': 'application/json',
+        'x-api-version': process.env.CASHFREE_VERSION,
+        'x-client-id': process.env.CASHFREE_ID,
+        'x-client-secret': process.env.CASHFREE_KEY
+    }
+});
 
  
 
+// console.log("res_data",response.data)
 
+
+
+
+if(response.data.order_status==="PAID"){
+  
+    let shop=await shopSchema.findById(req.body.data.cartShop)
+
+
+  const finalOrderInfo={  
+            orderInfo:req.body.data.orderInfo,
+        orderId:req.body.data.oid,
+        orderItems:req.body.data.cartItems,
+        itemsPrice:req.body.data.SubTotal,
+        conveniencePrice:req.body.data.ConvenienceCharge,
+        totalPrice:req.body.data.OrderTotal,
+        shop:req.body.data.cartShop,
+        shopName:req.body.data.cartShopName,
+        paidAt:Date.now(),
+        user:req.user._id,
+        orderNumber:Math.floor(Math.random() * 999) + 1,
+        secretCode:Math.floor(Math.random() * (9999) + 1000),
+        cookingTime:req.body.data.cookingTime,
+        shopOwner:shop.owner,
+        paymentInfo:{status:"paid",id:response.data.order_token}
+    }
+
+  
+
+  let order= await orderSchema.create(finalOrderInfo)
+    res.status(200).json({
+    success:true,
+    orderId:order._id,
+    shopId:order.shop
+
+     } )
 
 }else{
-    // await orderSchema.findOneAndDelete({orderId:req.body.ORDERID})
-    res.redirect(`${process.env.FRONTEND_HOST}/cart?paymentError="some Issue in payment,please try again"`);
+   
+    res.status(200).json({
+        success:false
+         } )
+ 
 }
+
+
+
+
+
+
+
+
+
+
+// if(req.body.STATUS==="TXN_SUCCESS"){
+//     let orderInfo= JSON.parse( req.body.UDF_1 )
+  
+//     let shop=await shopSchema.findById(orderInfo.shop)
+
+//     var paytmChecksum="";
+//     paytmChecksum = req.body.CHECKSUMHASH;
+//     var isVerifySignature = PaytmChecksum.verifySignature(req.body, process.env.NEXT_PUBLIC_PAYTM_MKEY, paytmChecksum);
+// if (!isVerifySignature) {
+//     return next(new ErrorHandler("Checksum Mismatch-Dont try to tamper", 404));
+// } 
+ 
+
+
+//    orderInfo.shopOwner=shop.owner
+//    orderInfo.paidAt=Date.now();
+//    orderInfo.paymentInfo={status:"paid",id:req.body.TXNID}
+
+//   let order= await orderSchema.create(orderInfo)
+
+
+//   res.redirect(`${process.env.FRONTEND_HOST}/newOrder/${order._id}?shopId=${order.shop}&clearCart=true`);
+
+ 
+
+
+
+// }else{
+//     // await orderSchema.findOneAndDelete({orderId:req.body.ORDERID})
+//     res.redirect(`${process.env.FRONTEND_HOST}/cart?paymentError="some Issue in payment,please try again"`);
+// }
+
+
+
 //  res.redirect(`http://localhost:3000/newOrder/${order._id}?shopId=${order.shop}`);
 //  res.redirect('back');
 
-    // res.status(200).json(
-    //    req.body,
+//     res.status(200).json(
+//        req.body,
 
-    // )
+//     )
 });
