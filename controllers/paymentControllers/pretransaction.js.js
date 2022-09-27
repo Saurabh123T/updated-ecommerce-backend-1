@@ -204,7 +204,7 @@ try {
             // "notify_url":`${process.env.FRONTEND_HOST}/cart`,
             //     "return_url":`${process.env.FRONTEND_HOST}/newOrder/loading?order_id={order_id}&order_token={order_token} `,
             //     },
-            "order_splits": [{
+            "order_splits": [{ 
                 "vendor_id": req.body.cartShop,
                 "amount": req.body.SubTotal
             }
