@@ -208,7 +208,7 @@ try {
                 "vendor_id": req.body.cartShop,
                 "amount": req.body.SubTotal
             }
-        ],
+        ], 
         "customer_details": {
          "customer_id": req.user._id.toString(),
           "customer_name":req.user.name,
