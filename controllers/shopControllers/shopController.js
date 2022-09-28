@@ -12,6 +12,8 @@ const axios=require("axios")
 
 const date=require("date-and-time")
 
+const mongoose=require("mongoose")
+
 // create Shop 
 exports.createShop=catchAsyncErrors(async(req,res,next)=>{
  
@@ -231,10 +233,6 @@ const productCount=await productSchema.countDocuments();
     "path": "name"
   }
 }
-       
-      
-  
- 
     // "index": 'productSearch',
     // "text": {
     //   "query": req.query.keyword,
@@ -509,9 +507,51 @@ exports.adminShopDetails=catchAsyncErrors(async(req,res,next)=>{
     return next(new ErrorHandler("Shop not found", 404));
   }
 
+  const now = new Date();
+  // const beforeDate = date.addHours(now, -24);
+
+
+      
+  const beforeDate=date.parse(date.format(now, 'MMM DD YYYY') +" "+"00:01", 'MMM DD YYYY HH:mm');
+// console.log(beforeDate)
+let todaySalesAggregate=await orderSchema.aggregate(
+  [{
+    "$match": {
+     "shop":mongoose.Types.ObjectId(req.params.shopId),
+      "orderStatus": {
+        "$in": [
+          "delivered",
+          "accepted"
+        ]
+      },
+      "createdAt": {
+        "$gte":beforeDate 
+      }
+    }
+  },{
+    "$group": {
+      "_id": {}, 
+      totalAmount: { "$sum": "$itemsPrice"}
+      
+    }
+  },
+  ]
+)
+
+const todayOrdersCount=await orderSchema.countDocuments({ shop:req.params.shopId, orderStatus:"accepted", createdAt: {
+  $gt: beforeDate,
+}} )
+
+// console.log(todaySales[0].totalAmount)
+const todaySales=todaySalesAggregate[0].totalAmount
+
+
+
   res.status(200).json({
     success:true,
-    shop
+    shop,
+    todayOrdersCount,
+    todaySales
   })
 })
 

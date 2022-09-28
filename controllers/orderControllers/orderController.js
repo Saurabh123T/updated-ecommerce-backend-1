@@ -149,7 +149,7 @@ exports.getOrdersHistory=catchAsyncErrors(async(req,res,next)=>{
         const apiFeature=new ApiFeatures(orderSchema.find({ shop:req.params.shopId,
             createdAt: {
                 $gt: beforeDate,
-        }} ),req.query).pagination();
+        }} ).sort({createdAt:-1}),req.query).pagination();
         ordersHistory=await apiFeature.query
     //  ordersHistory=await orderSchema.find({ shop:req.params.shopId,
     //     createdAt: {
@@ -159,7 +159,7 @@ exports.getOrdersHistory=catchAsyncErrors(async(req,res,next)=>{
 
     //  ordersHistory=await orderSchema.find({ shop:req.params.shopId} );
      ordersHistoryCount=await orderSchema.countDocuments({ shop:req.params.shopId});
-     const apiFeature=new ApiFeatures(orderSchema.find({ shop:req.params.shopId} ),req.query).pagination();
+     const apiFeature=new ApiFeatures(orderSchema.find({ shop:req.params.shopId} ).sort({createdAt:-1}),req.query).pagination();
     ordersHistory=await apiFeature.query
 
     }
