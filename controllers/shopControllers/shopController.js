@@ -107,7 +107,7 @@ try {
         'name': req.user.name,
         'id': shop._id.toString(),
         'settlementCycleId': 2,
-        'verifyAccount': true 
+        'verifyAccount': false 
     },
     {
         headers: {
