@@ -543,7 +543,7 @@ const todayOrdersCount=await orderSchema.countDocuments({ shop:req.params.shopId
 }} )
 
 // console.log(todaySales[0].totalAmount)
-const todaySales=todaySalesAggregate[0]?.totalAmount
+const todaySales=todaySalesAggregate[0]?.totalAmount||0
 
 
 
