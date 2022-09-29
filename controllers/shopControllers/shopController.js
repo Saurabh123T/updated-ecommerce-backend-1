@@ -648,6 +648,34 @@ exports.getSuperAdminShops=catchAsyncErrors(async(req,res,next)=>{
   const shopCount=await shopSchema.countDocuments();
   const pendingShopCount=await shopSchema.countDocuments({shopStatus:"pending"});
   const rejectedShopCount=await shopSchema.countDocuments({shopStatus:"rejected"});
+
+  const now = new Date();  
+  const beforeDate=date.parse(date.format(now, 'MMM DD YYYY') +" "+"00:01", 'MMM DD YYYY HH:mm');
+
+  let todayProfit=await orderSchema.aggregate(
+    [{
+      "$match": {
+        "orderStatus": {
+          "$in": [
+            "delivered",
+            "accepted"
+          ]
+        },
+        "createdAt": {
+          "$gte":beforeDate 
+        }
+      }
+    },{
+      "$group": {
+        "_id": {}, 
+        totalProfit: { "$sum": "$conveniencePrice"}
+        
+      }
+    },
+    ]
+  )
+  todayProfit=todayProfit[0]?.totalProfit||0
+
   
   let apiFeature
   
@@ -662,7 +690,8 @@ exports.getSuperAdminShops=catchAsyncErrors(async(req,res,next)=>{
         shops,
         pendingShopCount,
         rejectedShopCount,
-        shopCount
+        shopCount,
+        todayProfit
     })
     })
 
