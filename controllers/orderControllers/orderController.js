@@ -13,6 +13,11 @@ const ApiFeatures = require("../../utils/apiFeatures");
 const axios = require("axios");
 
 
+const ThermalPrinter = require("node-thermal-printer").printer;
+const PrinterTypes = require("node-thermal-printer").types;
+const electron = typeof process !== 'undefined' && process.versions && !!process.versions.electron;
+
+
 
 // create new order-user
 exports.newOrder=catchAsyncErrors(async(req,res,next)=>{
@@ -299,7 +304,34 @@ if(req.body.status==="rejected"){
 if(req.body.status){
     order.orderStatus=req.body.status}
    else{
-    order.startedCooking=req.body.startedCooking}
+    order.startedCooking=req.body.startedCooking
+
+
+    // here i added printer support
+    try {
+        
+
+    let printer = new ThermalPrinter({
+        type: PrinterTypes.EPSON,                    // Printer type: 'star' or 'epson'
+        interface: 'printer:auto',         // Printer interface
+        characterSet: 'SLOVENIA',                   // Printer character set - default: SLOVENIA
+        removeSpecialCharacters: false,             // Removes special characters - default: false
+        lineCharacter: "=",                         // Set character for lines - default: "-"
+        options:{                                   // Additional options
+          timeout: 5000                             // Connection timeout (ms) [applicable only for network printers] - default: 3000
+        },
+        driver: require(electron ? 'electron-printer' : 'printer')
+      });
+//  console.log('printer',printer)
+ 
+      printer.alignCenter();
+      printer.println("Hello world");
+      printer.cut();
+
+    } catch (error) {
+        console.log('tryCatch print error',error)
+    }
+}
 
     if(order.orderStatus==="accepted"){
     for(o of order.orderItems){
