@@ -13,9 +13,9 @@ const ApiFeatures = require("../../utils/apiFeatures");
 const axios = require("axios");
 
 
-const ThermalPrinter = require("node-thermal-printer").printer;
-const PrinterTypes = require("node-thermal-printer").types;
-const electron = typeof process !== 'undefined' && process.versions && !!process.versions.electron;
+// const ThermalPrinter = require("node-thermal-printer").printer;
+// const PrinterTypes = require("node-thermal-printer").types;
+// const electron = typeof process !== 'undefined' && process.versions && !!process.versions.electron;
 
 
 
@@ -308,29 +308,29 @@ if(req.body.status){
 
 
     // here i added printer support
-    try {
+//     try {
         
 
-    let printer = new ThermalPrinter({
-        type: PrinterTypes.EPSON,                    // Printer type: 'star' or 'epson'
-        interface: 'printer:auto',         // Printer interface
-        characterSet: 'SLOVENIA',                   // Printer character set - default: SLOVENIA
-        removeSpecialCharacters: false,             // Removes special characters - default: false
-        lineCharacter: "=",                         // Set character for lines - default: "-"
-        options:{                                   // Additional options
-          timeout: 5000                             // Connection timeout (ms) [applicable only for network printers] - default: 3000
-        },
-        driver: require(electron ? 'electron-printer' : 'printer')
-      });
-//  console.log('printer',printer)
+//     let printer = new ThermalPrinter({
+//         type: PrinterTypes.EPSON,                    // Printer type: 'star' or 'epson'
+//         interface: 'printer:auto',         // Printer interface
+//         characterSet: 'SLOVENIA',                   // Printer character set - default: SLOVENIA
+//         removeSpecialCharacters: false,             // Removes special characters - default: false
+//         lineCharacter: "=",                         // Set character for lines - default: "-"
+//         options:{                                   // Additional options
+//           timeout: 5000                             // Connection timeout (ms) [applicable only for network printers] - default: 3000
+//         },
+//         driver: require(electron ? 'electron-printer' : 'printer')
+//       });
+// //  console.log('printer',printer)
  
-      printer.alignCenter();
-      printer.println("Hello world");
-      printer.cut();
+//       printer.alignCenter();
+//       printer.println("Hello world");
+//       printer.cut();
 
-    } catch (error) {
-        console.log('tryCatch print error',error)
-    }
+//     } catch (error) {
+//         console.log('tryCatch print error',error)
+//     }
 
 
     
