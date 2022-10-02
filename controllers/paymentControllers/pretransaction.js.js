@@ -199,7 +199,7 @@ try {
         "order_id": req.body.oid.toString(),
         "order_amount": req.body.OrderTotal,
         "order_currency": "INR",
-        "order_note": `order note here`,
+        // "order_note": `order note here`,
             //     "order_meta":{
             // "notify_url":`${process.env.FRONTEND_HOST}/cart`,
             //     "return_url":`${process.env.FRONTEND_HOST}/newOrder/loading?order_id={order_id}&order_token={order_token} `,
