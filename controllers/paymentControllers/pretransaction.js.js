@@ -94,53 +94,53 @@ try {
     return next(new ErrorHandler("some error in order", 404));
 }
 
-    var paytmParams = {};
+//     var paytmParams = {};
     
   
 
  
-    paytmParams.body = {
-        "requestType"   : "Payment",
-        "mid"           : Mid,
-    //     "mid"           : process.env.NEXT_PUBLIC_PAYTM_MID,
-        "websiteName"   : "DEFAULT",
-    //     "websiteName"   : "YOUR_WEBSITE_NAME",
-        "orderId"       : req.body.oid,
-        "callbackUrl"   : `${process.env.BACKEND_HOST}/api/v1/payment/posttransaction`,
-        "txnAmount"     : {
-            "value"     : req.body.OrderTotal,
-            "currency"  : "INR",
-        }, 
-        "userInfo"      : {
-    //         "custId"    : "mohithkumar808@gmail.com",
-            "custId"    : req.user._id,
-        },
+//     paytmParams.body = {
+//         "requestType"   : "Payment",
+//         "mid"           : Mid,
+//     //     "mid"           : process.env.NEXT_PUBLIC_PAYTM_MID,
+//         "websiteName"   : "DEFAULT",
+//     //     "websiteName"   : "YOUR_WEBSITE_NAME",
+//         "orderId"       : req.body.oid,
+//         "callbackUrl"   : `${process.env.BACKEND_HOST}/api/v1/payment/posttransaction`,
+//         "txnAmount"     : {
+//             "value"     : req.body.OrderTotal,
+//             "currency"  : "INR",
+//         }, 
+//         "userInfo"      : {
+//     //         "custId"    : "mohithkumar808@gmail.com",
+//             "custId"    : req.user._id,
+//         },
 
-        "extendInfo"    :{
-            "udf1"  :   JSON.stringify(testingOrderInfo),
-        },
-        // "splitSettlementInfo":{
-        //     "splitMethod":"AMOUNT",
-        //     "splitInfo":[{
-        //     "mid":shop.paymentMethods.paytmMid,
-        //     "amount":{
-        //       "value":req.body.SubTotal.toString(),
-        //       "currency":"INR"
-        //     },
-        //     }]
-        // } 
+//         "extendInfo"    :{
+//             "udf1"  :   JSON.stringify(testingOrderInfo),
+//         },
+//         // "splitSettlementInfo":{
+//         //     "splitMethod":"AMOUNT",
+//         //     "splitInfo":[{
+//         //     "mid":shop.paymentMethods.paytmMid,
+//         //     "amount":{
+//         //       "value":req.body.SubTotal.toString(),
+//         //       "currency":"INR"
+//         //     },
+//         //     }]
+//         // } 
 
         
-    };
+//     };
 
-   const checksum=await PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body),Mkey)
+//    const checksum=await PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body),Mkey)
 
 
-        paytmParams.head = {
-            "signature"    : checksum
-        }; 
+//         paytmParams.head = {
+//             "signature"    : checksum
+//         }; 
     
-        var post_data = JSON.stringify(paytmParams);
+//         var post_data = JSON.stringify(paytmParams);
   
 
     // const requestAsync=async()=>{ 
@@ -213,7 +213,7 @@ try {
          "customer_id": req.user._id.toString(),
           "customer_name":req.user.name,
           "customer_email": req.user.email,
-          "customer_phone": "9816512345"
+          "customer_phone": "0123456789"
         }
       }
    
