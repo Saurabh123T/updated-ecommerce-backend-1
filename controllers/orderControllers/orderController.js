@@ -446,3 +446,53 @@ await thisOrder.save()
       yourReview:thisOrder.yourReview
     });
   })
+
+
+
+// Cancel order--user
+exports.cancelOrder=catchAsyncErrors(async(req,res,next)=>{
+    
+
+    const order=await orderSchema.findById(req.params.orderId)
+    if(!order){
+        return next(new ErrorHandler("order not found", 404));
+    }
+    if(order.startedCooking){
+        return next(new ErrorHandler("Order cooking started, can't cancel now", 404));
+    }
+
+    order.orderStatus="cancelled"
+
+ 
+        try {
+            const response = await axios.post(
+            `${process.env.CASHFREE_HOST}/orders/${order.orderId}/refunds`,
+            {
+                "refund_amount":order.totalPrice,
+                "refund_id":"refund_"+Math.floor(Math.random()*Date.now()).toString(),
+                "refund_splits": [{ 
+                    "vendor_id": order.shop.toString(),
+                    "amount": order.itemsPrice
+                }],
+            },
+            {
+                headers: {
+                  'x-client-id': process.env.CASHFREE_ID,
+                  'x-client-secret': process.env.CASHFREE_KEY,
+                    'Content-Type': 'application/json',
+                    "x-api-version":process.env.CASHFREE_VERSION
+                }
+            }
+        ); 
+        
+        } catch (error) {
+        //   console.log(error)
+          return next(new ErrorHandler("Unable to initiate refund", 404));
+        }
+
+        await order.save({validateBeforeSave:false});
+    res.status(200).json({
+      success:true,
+      order
+    });
+  })

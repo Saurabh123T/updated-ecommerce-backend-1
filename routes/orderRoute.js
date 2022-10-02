@@ -1,11 +1,13 @@
 const express = require("express");
-const { newOrder, getSingleOrder, myOrder, getAllOrders, updateOrder, deleteOrder, createOrderReviews, deleteOrderBeforePayment, getOrdersHistory, myActiveOrders } = require("../controllers/orderControllers/orderController");
+const { newOrder, getSingleOrder, myOrder, getAllOrders, updateOrder, deleteOrder, createOrderReviews, deleteOrderBeforePayment, getOrdersHistory, myActiveOrders, cancelOrder } = require("../controllers/orderControllers/orderController");
 const router=express.Router();
 const { isAuthenticatedUser, authorizedRoles } = require("../middleware/auth");
 
 // router.route("/:shopId/order/new").post(isAuthenticatedUser,newOrder);
 
 router.route("/:shopId/order/:id").get(isAuthenticatedUser,getSingleOrder);
+
+router.route("/:shopId/order/:orderId/cancelOrder").put(isAuthenticatedUser,cancelOrder);
 
 
 router.route("/:shopId/order/:id").put(isAuthenticatedUser,authorizedRoles("admin"),updateOrder).delete(isAuthenticatedUser,authorizedRoles("admin"),deleteOrder);
