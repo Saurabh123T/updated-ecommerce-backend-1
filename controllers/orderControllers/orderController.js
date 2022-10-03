@@ -468,7 +468,7 @@ exports.cancelOrder=catchAsyncErrors(async(req,res,next)=>{
             const response = await axios.post(
             `${process.env.CASHFREE_HOST}/orders/${order.orderId}/refunds`,
             {
-                "refund_amount":order.totalPrice,
+                "refund_amount":order.itemsPrice,
                 "refund_id":"refund_"+Math.floor(Math.random()*Date.now()).toString(),
                 "refund_splits": [{ 
                     "vendor_id": order.shop.toString(),
