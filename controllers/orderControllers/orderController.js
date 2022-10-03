@@ -308,7 +308,12 @@ if(req.body.status==="rejected"){
 if(req.body.status){
     order.orderStatus=req.body.status}
    else{
+       if(order.orderStatus!=="cancelled"){
+        return next(new ErrorHandler("User has cancelled the order", 404));
+       }
     order.startedCooking=req.body.startedCooking
+
+    
 
 
     // here i added printer support
