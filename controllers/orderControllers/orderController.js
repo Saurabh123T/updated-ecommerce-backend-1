@@ -322,16 +322,17 @@ if(req.body.status){
 
 //     let printer = new ThermalPrinter({
 //         type: PrinterTypes.EPSON,                    // Printer type: 'star' or 'epson'
-//         interface: 'printer:auto',         // Printer interface
+//         interface: '/dev/usb/lp0',         // Printer interface
 //         characterSet: 'SLOVENIA',                   // Printer character set - default: SLOVENIA
 //         removeSpecialCharacters: false,             // Removes special characters - default: false
 //         lineCharacter: "=",                         // Set character for lines - default: "-"
 //         options:{                                   // Additional options
 //           timeout: 5000                             // Connection timeout (ms) [applicable only for network printers] - default: 3000
 //         },
-//         driver: require(electron ? 'electron-printer' : 'printer')
+//         driver: require("../../utils/epos-2.22.0")
+//         // driver: require(electron ? 'electron-printer' : 'printer')
 //       });
-// //  console.log('printer',printer)
+//  console.log('printer',printer)
  
 //       printer.alignCenter();
 //       printer.println("Hello world");
