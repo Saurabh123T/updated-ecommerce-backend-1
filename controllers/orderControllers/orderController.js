@@ -283,7 +283,7 @@ if(req.body.status==="rejected"){
             "refund_id":"refund_"+Math.floor(Math.random()*Date.now()).toString(),
             "refund_splits": [{ 
                 "vendor_id": order.shop.toString(),
-                "amount": order.itemsPrice
+                "amount":  order.itemsPrice+order.taxPrice
             }],
         },
         {
@@ -474,11 +474,12 @@ exports.cancelOrder=catchAsyncErrors(async(req,res,next)=>{
             const response = await axios.post(
             `${process.env.CASHFREE_HOST}/orders/${order.orderId}/refunds`,
             {
-                "refund_amount":order.itemsPrice,
+                "refund_amount": order.itemsPrice+order.taxPrice,
                 "refund_id":"refund_"+Math.floor(Math.random()*Date.now()).toString(),
                 "refund_splits": [{ 
                     "vendor_id": order.shop.toString(),
-                    "amount": order.itemsPrice
+                    "amount": order.itemsPrice+order.taxPrice
+                    // "amount": order.itemsPrice
                 }],
             },
             {

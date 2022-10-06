@@ -206,7 +206,7 @@ try {
             //     },
             "order_splits": [{ 
                 "vendor_id": req.body.cartShop,
-                "amount": req.body.SubTotal
+                "amount": req.body.SubTotal+req.body.taxPrice
             }
         ], 
         "customer_details": {
