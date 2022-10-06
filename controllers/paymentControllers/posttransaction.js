@@ -40,6 +40,7 @@ if(response.data.order_status==="PAID"){
         itemsPrice:req.body.data.SubTotal,
         conveniencePrice:req.body.data.ConvenienceCharge,
         totalPrice:req.body.data.OrderTotal,
+        taxPrice:req.body.data.taxPrice,
         shop:req.body.data.cartShop,
         shopName:req.body.data.cartShopName,
         paidAt:Date.now(),

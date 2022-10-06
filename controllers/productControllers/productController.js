@@ -194,6 +194,7 @@ exports.getProductDetails=catchAsyncErrors(async(req,res,next)=>{
     success:true,
    product,
    productShopUpiId:shop.paymentMethods.upiId,
+   productShopTaxPercent:shop.taxPercent,
   //  productShopPaytmMid:shop.paymentMethods.paytmMid,
    productShopName:shop.name,
    productShopOpenTime:shop.openTime,

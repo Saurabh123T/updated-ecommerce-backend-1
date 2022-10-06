@@ -65,6 +65,10 @@ const shopSchema =new mongoose.Schema({
         type:Number,
         default:0
     },
+    taxPercent:{
+        type:Number,
+        default:0
+    },
     shopStatus:{
         type:String,
         default:"pending"
