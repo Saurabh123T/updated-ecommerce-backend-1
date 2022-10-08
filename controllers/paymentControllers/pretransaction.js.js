@@ -213,7 +213,8 @@ try {
          "customer_id": req.user._id.toString(),
           "customer_name":req.user.name,
           "customer_email": req.user.email,
-          "customer_phone": "0123456789"
+          "customer_phone": req.user.number.toString()
+        //   "customer_phone": "0123456789"
         }
       }
    
