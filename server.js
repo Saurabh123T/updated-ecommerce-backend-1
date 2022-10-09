@@ -48,16 +48,17 @@ const server=app.listen(process.env.PORT || 4000,async()=>{
     try {
      
         watchOrder=orderSchema.watch(
-            [
+            [ 
             {
   
-                "$match":{
-            
-                    operationType:"insert",
-                    // operationType:"update",
-                    // "fullDocument.orderStatus":"initiated",
-                    // "fullDocument.paymentInfo.status":"paid"
-                }
+                "$match":{ $or: [ {  operationType:"insert" }, { operationType:"update","updateDescription.updatedFields.startedCooking":{$eq:true}}] } 
+                // "$match":{
+                //     // operationType:"insert",
+
+                //     operationType:"update",
+                //     // "fullDocument.orderStatus":"initiated",
+                //     // "fullDocument.paymentInfo.status":"paid"
+                // }
             }
         ] 
         ,{"fullDocument":"updateLookup"} 
@@ -71,6 +72,18 @@ const server=app.listen(process.env.PORT || 4000,async()=>{
 
             const thisShopId=next.fullDocument?.shop?.toString()
             const newOrder=next.fullDocument
+// console.log(next)
+          
+
+
+            if(next.operationType=="update"){
+                // console.log("watched update")
+                io.to(thisShopId).emit("printReceipt",newOrder)
+            }
+
+
+            if(next.operationType=="insert"){
+
            
        
             io.to(thisShopId).emit("newOrder",newOrder)
@@ -104,7 +117,9 @@ const server=app.listen(process.env.PORT || 4000,async()=>{
          console.log(error)         
 }     
   
+}
         })  
+
         
         console.log(`Server is working on ${process.env.BACKEND_HOST}`)
         // console.log(`Server is working on http://localhost:${process.env.PORT}`)
@@ -132,12 +147,22 @@ process.on("unhandledRejection",(err)=>{
 // socket.io
  const io=require("socket.io")(server,{
     pingTimeout:60000,
-    cors:{
+    cors:{ 
+        // origin:"*",
         origin:process.env.FRONTEND_HOST
         // origin:'http://localhost:3000'
     }
 
 })
+//  const io=require("socket.io")(server,{
+//     pingTimeout:60000,
+//     cors:{
+//         // origin:"*"
+//         origin:process.env.FRONTEND_HOST
+//         // origin:'http://localhost:3000'
+//     }
+
+// })
     io.on("connection",(socket)=>{
  
         console.log("connected to socket.io");
@@ -145,6 +170,7 @@ process.on("unhandledRejection",(err)=>{
         
 
         socket.on("setup",(shopId)=>{
+           
             socket.join(shopId);
             socket.activeRoom=shopId;
             console.log(shopId);
