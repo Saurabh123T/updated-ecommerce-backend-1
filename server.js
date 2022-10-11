@@ -147,7 +147,7 @@ process.on("unhandledRejection",(err)=>{
 // socket.io
  const io=require("socket.io")(server,{
     pingTimeout:60000,
-    cors:{ 
+    cors:{  
         // origin:"*",
         origin:process.env.FRONTEND_HOST
         // origin:'http://localhost:3000'
