@@ -22,7 +22,7 @@ exports.createShop=catchAsyncErrors(async(req,res,next)=>{
  const captchaRes= await axios.post(
     `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${req.body.captchaToken}`
     );
-// console.log(captchaRes)
+console.log(captchaRes)
 if(!captchaRes.data.success){
   return next(new ErrorHandler("Captcha validation failed", 404));
 
