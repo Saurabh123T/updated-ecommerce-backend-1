@@ -16,6 +16,25 @@ const mongoose=require("mongoose")
 
 // create Shop 
 exports.createShop=catchAsyncErrors(async(req,res,next)=>{
+  try {
+    
+  
+ const captchaRes= await axios.post(
+    `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${req.body.captchaToken}`
+    );
+// console.log(captchaRes)
+if(!captchaRes.data.success){
+  return next(new ErrorHandler("Captcha validation failed", 404));
+
+}
+ 
+
+} catch (error) {
+  console.log("error",error)
+  return next(new ErrorHandler("Captcha validation failed", 404));
+    
+}
+
  
 try {
   const response=await axios.get(`https://api.cashfree.com/api/v2/upi/validate/${JSON.parse(req.body.paymentMethods).upiId}`,

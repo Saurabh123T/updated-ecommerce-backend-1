@@ -77,7 +77,7 @@ const server=app.listen(process.env.PORT || 4000,async()=>{
 
 
             if(next.operationType=="update"){
-                // console.log("watched update")
+                console.log("watched update")
                 io.to(thisShopId).emit("printReceipt",newOrder)
             }
 
