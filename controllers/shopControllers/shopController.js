@@ -20,7 +20,8 @@ exports.createShop=catchAsyncErrors(async(req,res,next)=>{
     
   
  const captchaRes= await axios.post(
-    `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${req.body.captchaToken}`
+    `https://www.google.com/recaptcha/api/siteverify?secret=6Ld-e3siAAAAAFi-1doQa0lf-B_dGxvjM2SpOTI5&response=${req.body.captchaToken}`
+    // `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${req.body.captchaToken}`
     );
 console.log(captchaRes)
 if(!captchaRes.data.success){
