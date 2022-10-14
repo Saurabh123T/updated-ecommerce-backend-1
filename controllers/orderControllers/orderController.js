@@ -84,7 +84,9 @@ exports.myActiveOrders=catchAsyncErrors(async(req,res,next)=>{
 
 // get All OrderDetails-Admin
 exports.getAllOrders=catchAsyncErrors(async(req,res,next)=>{
-    const orders=await orderSchema.find({shop:req.params.shopId} );
+    const orders=await orderSchema.find({shop:req.params.shopId} ).populate("user","name number");
+    // const orders=await orderSchema.find({shop:req.params.shopId} );
+
     // const orders=await orderSchema.find({
     //     $and: [
     //         { orderStatus: "accepted"},
