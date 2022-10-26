@@ -89,33 +89,35 @@ const server=app.listen(process.env.PORT || 4000,async()=>{
             io.to(thisShopId).emit("newOrder",newOrder)
 
 
-            const beamsClient = new PushNotifications({
-                instanceId: process.env.PUSHER_INSTANCE_ID,
-                secretKey: process.env.PUSHER_SECRET_ID,
-              });
-              try {
+//             const beamsClient = new PushNotifications({
+//                 instanceId: process.env.PUSHER_INSTANCE_ID,
+//                 secretKey: process.env.PUSHER_SECRET_ID,
+//               });
+//               try {
                   
              
-            beamsClient.publishToUsers([newOrder.shopOwner?.toString()], {
+//             beamsClient.publishToUsers([newOrder.shopOwner?.toString()], {
    
-    web: {
-      notification: {
-        title: `New order(order.Num-${newOrder.orderNumber}) - ₹${newOrder.totalPrice}`, 
-        body:`${ newOrder.orderItems.map((ord)=> ord.name+"x"+ord.quantity+", ")}`,
-        deep_link: `${process.env.FRONTEND_HOST}/${newOrder.shop}/admin/orders`,
-        icon:"https://picsum.photos/200"
-      },
-    },
-  })
-  .then((publishResponse) => {
-    // console.log("Just published:", publishResponse.publishId);
-  })
-  .catch((error) => {
-    // console.error("Error:", error);
-  });
-} catch (error) {
-         console.log(error)         
-}     
+//     web: {
+//       notification: {
+//         title: `New order(order.Num-${newOrder.orderNumber}) - ₹${newOrder.totalPrice}`, 
+//         body:`${ newOrder.orderItems.map((ord)=> ord.name+"x"+ord.quantity+", ")}`,
+//         deep_link: `${process.env.FRONTEND_HOST}/${newOrder.shop}/admin/orders`,
+//         icon:"https://picsum.photos/200"
+//       },
+//     },
+//   })
+//   .then((publishResponse) => {
+//     // console.log("Just published:", publishResponse.publishId);
+//   })
+//   .catch((error) => {
+//     // console.error("Error:", error);
+//   });
+
+
+// } catch (error) {
+//          console.log(error)         
+// }     
   
 }
         })  
