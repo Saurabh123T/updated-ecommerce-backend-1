@@ -166,7 +166,7 @@ exports.getOrdersHistory=catchAsyncErrors(async(req,res,next)=>{
 
     //  ordersHistory=await orderSchema.find({ shop:req.params.shopId} );
      ordersHistoryCount=await orderSchema.countDocuments({ shop:req.params.shopId});
-     const apiFeature=new ApiFeatures(orderSchema.find({ shop:req.params.shopId} ).sort({createdAt:-1}),req.query).pagination();
+     const apiFeature=new ApiFeatures(orderSchema.find({ shop:req.params.shopId} ).populate("user","name number").sort({createdAt:-1}),req.query).pagination();
     ordersHistory=await apiFeature.query
 
     }
