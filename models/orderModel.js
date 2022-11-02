@@ -20,6 +20,9 @@ const orderSchema=new mongoose.Schema({
         required:[true,"please enter proper order id"],
         unique:[true,"please enter unique order id"],
     },
+    refundStatus:{
+        type:String,
+    },
     startedCooking:{
         type:Boolean,
         default:false

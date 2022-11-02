@@ -11,6 +11,7 @@ const https = require('https');
 const PaytmChecksum = require('paytmchecksum');
 const ApiFeatures = require("../../utils/apiFeatures");
 const axios = require("axios");
+const { response } = require("express");
 
 
 // const ThermalPrinter = require("node-thermal-printer").printer;
@@ -39,11 +40,51 @@ exports.newOrder=catchAsyncErrors(async(req,res,next)=>{
 // get Single Order
 exports.getSingleOrder=catchAsyncErrors(async(req,res,next)=>{
     // console.log(req.params.id)
-    const order=await orderSchema.findById(req.params.id).populate("user","name email");
+    let order=await orderSchema.findById(req.params.id).populate("user","name email");
+    // let order=await orderSchema.findById(req.params.id).populate("user","name email");
 
     if(!order){
         return next(new ErrorHandler("order not found", 404));
     }
+
+    try {
+        const response = await axios.get(
+        `${process.env.CASHFREE_HOST}/orders/${order.orderId}/refunds`,
+      
+        {
+            headers: {
+              'x-client-id': process.env.CASHFREE_ID,
+              'x-client-secret': process.env.CASHFREE_KEY,
+                'Content-Type': 'application/json',
+                "x-api-version":process.env.CASHFREE_VERSION
+            }
+        }
+    ); 
+
+    const refundDetails = await axios.get(
+        `${process.env.CASHFREE_HOST}/orders/${order.orderId}/refunds/${response.data[0].refund_id}`,
+      
+        {
+            headers: {
+              'x-client-id': process.env.CASHFREE_ID,
+              'x-client-secret': process.env.CASHFREE_KEY,
+                'Content-Type': 'application/json',
+                "x-api-version":process.env.CASHFREE_VERSION
+            }
+        }
+    ); 
+    // console.log(refundDetails.data)
+    if(refundDetails.data.refund_status==="SUCCESS"){
+        order.refundStatus="success"}
+    
+    } catch (error) {
+    //   console.log(error)
+    //   return next(new ErrorHandler("Unable to initiate refund", 404));
+    }
+//   let finalOrder={order}
+
+//   finalOrder.refundStatus="success"
+    // console.log(order)
 
     res.status(201).json({
         success:true,
