@@ -521,7 +521,7 @@ if(openTimeDiff<0||closeTimeDiff<0){
 
 // get Adminshop details
 exports.adminShopDetails=catchAsyncErrors(async(req,res,next)=>{
-  const shop = await shopSchema.findById(req.params.shopId).populate("reviews.user","name avatar");
+  const shop = await shopSchema.findById(req.params.shopId).populate("reviews.user","name avatar").select("+number");
 
   if(!shop){
     return next(new ErrorHandler("Shop not found", 404));
