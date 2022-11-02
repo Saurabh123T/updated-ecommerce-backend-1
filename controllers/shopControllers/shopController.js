@@ -294,19 +294,20 @@ const productCount=await productSchema.countDocuments();
 
 // update shop --role admin
 exports.updateShop=catchAsyncErrors(async(req,res,next)=>{
+  // console.log(req.body)
   let shop = await shopSchema.findById(req.params.shopId);
 
-if(req.body.paymentMethods){
+if(req.body.paymentMethods|| req.body.number){
   try {
     const response = await axios.put(
     `https://api.cashfree.com/api/v2/easy-split/vendors/${req.params.shopId}`,
     {
 
         'upi': {
-            'vpa': JSON.parse(req.body.paymentMethods).upiId,
+            'vpa': req.body.paymentMethods?JSON.parse(req.body.paymentMethods):shop.paymentMethods.upiId,
         },
-        'phone': req.body.number||shop.number,
-        'verifyAccount': true
+        'phone': req.body.number.toString()||shop.number,
+        // 'verifyAccount': true
     },
     {
         headers: {
@@ -316,9 +317,9 @@ if(req.body.paymentMethods){
         }
     }
 ); 
-
+// console.log(response)
 } catch (error) {
-  // console.log(error)
+  console.log(error)
   return next(new ErrorHandler("Invalid upi id/phone number", 404));
 }
 
